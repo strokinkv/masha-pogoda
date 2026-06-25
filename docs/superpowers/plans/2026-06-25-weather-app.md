@@ -838,10 +838,10 @@ class WeatherCacheManagerTest {
 - Produces: `suspend fun LocationProvider.current(): Pair<Double,Double>?`; `suspend fun geocode(city: String): GeoPoint?` (через `NominatimApi`, кэш в `AppPrefs`).
 
 **Verification (ручная — нет failing-теста):**
-- [ ] **Step 1:** Реализовать `LocationProvider` на `FusedLocationProviderClient.getCurrentLocation(PRIORITY_BALANCED_POWER_ACCURACY, …)`, обёрнутый в `suspendCancellableCoroutine`. Проверка разрешений — caller.
-- [ ] **Step 2:** `geocode()` — вызвать Nominatim, взять первый результат, сохранить lat/lon/city в `AppPrefs`, при сетевой ошибке вернуть null.
+- [x] **Step 1:** Реализовать `LocationProvider` на `FusedLocationProviderClient.getCurrentLocation(PRIORITY_BALANCED_POWER_ACCURACY, …)`, обёрнутый в `suspendCancellableCoroutine`. Проверка разрешений — caller.
+- [x] **Step 2:** `geocode()` — вызвать Nominatim, взять первый результат, сохранить lat/lon/city в `AppPrefs`, при сетевой ошибке вернуть null.
 - [ ] **Step 3: Manual verify:** на устройстве/эмуляторе с GPS — лог координат; ручной ввод «Казань» → координаты ≈55.79,49.12. Зафиксировать в PR-заметке.
-- [ ] **Step 4: Commit** `git commit -am "feat: location provider + nominatim geocoder"`
+- [x] **Step 4: Commit** `git commit -am "feat: location provider + nominatim geocoder"`
 
 ---
 
