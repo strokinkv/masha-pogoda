@@ -780,7 +780,7 @@ class ForecastMergerTest {
 **Interfaces:**
 - Produces: `class WeatherCacheManager(dir: File)` с `fun save(f: WeatherForecast)`, `fun load(): WeatherForecast?`, `fun isStale(f: WeatherForecast, now: Long): Boolean` (TTL 24ч).
 
-- [ ] **Step 1: Failing-тест round-trip + stale**
+- [x] **Step 1: Failing-тест round-trip + stale**
 
 ```kotlin
 class WeatherCacheManagerTest {
@@ -795,10 +795,10 @@ class WeatherCacheManagerTest {
 }
 ```
 
-- [ ] **Step 2:** Run — Expected: FAIL.
-- [ ] **Step 3: Реализация:** сериализация `WeatherForecast` через `Json` в `dir/forecast.json`; `isStale = now - f.cachedAt > 24*3600_000`.
-- [ ] **Step 4:** Run — Expected: PASS.
-- [ ] **Step 5: Commit** `git commit -am "feat: disk cache with 24h ttl (TDD)"`
+- [x] **Step 2:** Run — Expected: FAIL.
+- [x] **Step 3: Реализация:** сериализация `WeatherForecast` через `Json` в `dir/forecast.json`; `isStale = now - f.cachedAt > 24*3600_000`.
+- [x] **Step 4:** Run — Expected: PASS.
+- [x] **Step 5: Commit** `git commit -am "feat: disk cache with 24h ttl (TDD)"`
 
 ---
 
