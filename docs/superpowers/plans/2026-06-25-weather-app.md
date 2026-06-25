@@ -732,10 +732,10 @@ class YandexMapperTest {
 **Interfaces:**
 - Produces: `ServiceLocator.yandexApi`, `.openMeteoApi`, `.nominatimApi`, общий `OkHttpClient`.
 
-- [ ] **Step 1:** `ServiceLocator` — три Retrofit-инстанса (разные baseUrl), общий OkHttp; интерцептор для `api.weather.yandex.ru` берёт ключ **динамически из `AppPrefs.yandexKey`** (`X-Yandex-Weather-Key`) — так введённый в настройках ключ применяется без пересоздания клиента; интерцептор `User-Agent: WeatherApp/1.0` (обезличенный, без личного email) для `nominatim.openstreetmap.org`. Конвертер — `kotlinx-serialization`.
-- [ ] **Step 2:** `NominatimApi` — `@GET("search") suspend fun search(@Query("q") q, @Query("format")="json", @Query("limit")=1, @Query("accept-language")="ru"): List<NominatimResult>`.
-- [ ] **Step 3:** Run `./gradlew :app:compileDebugKotlin` — Expected: SUCCESS.
-- [ ] **Step 4: Commit** `git commit -am "feat: networking service locator"`
+- [x] **Step 1:** `ServiceLocator` — три Retrofit-инстанса (разные baseUrl), общий OkHttp; интерцептор для `api.weather.yandex.ru` берёт ключ **динамически из `AppPrefs.yandexKey`** (`X-Yandex-Weather-Key`) — так введённый в настройках ключ применяется без пересоздания клиента; интерцептор `User-Agent: WeatherApp/1.0` (обезличенный, без личного email) для `nominatim.openstreetmap.org`. Конвертер — `kotlinx-serialization`.
+- [x] **Step 2:** `NominatimApi` — `@GET("search") suspend fun search(@Query("q") q, @Query("format")="json", @Query("limit")=1, @Query("accept-language")="ru"): List<NominatimResult>`.
+- [x] **Step 3:** Run `./gradlew :app:compileDebugKotlin` — Expected: SUCCESS.
+- [x] **Step 4: Commit** `git commit -am "feat: networking service locator"`
 
 ---
 
