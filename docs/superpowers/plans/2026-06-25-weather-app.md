@@ -818,14 +818,14 @@ class WeatherCacheManagerTest {
   class WeatherRepository(...) { suspend fun refresh(lat: Double, lon: Double, city: String): WeatherResult }
   ```
 
-- [ ] **Step 1:** `AppPrefs` — обёртка SharedPreferences: lat, lon, city, locationMode (GPS/MANUAL), **`yandexKey: String?`** (с дефолтом `BuildConfig.YANDEX_DEV_KEY` только в debug; в release — пусто пока пользователь не введёт). **Дефолт города — Москва** (`55.7558, 37.6176`): задаётся при первом запуске, чтобы экран никогда не был пустым, даже если разрешение на геолокацию отклонено или нет Google Play Services.
-- [ ] **Step 2:** `refresh()` ветвится по наличию ключа:
+- [x] **Step 1:** `AppPrefs` — обёртка SharedPreferences: lat, lon, city, locationMode (GPS/MANUAL), **`yandexKey: String?`** (с дефолтом `BuildConfig.YANDEX_DEV_KEY` только в debug; в release — пусто пока пользователь не введёт). **Дефолт города — Москва** (`55.7558, 37.6176`): задаётся при первом запуске, чтобы экран никогда не был пустым, даже если разрешение на геолокацию отклонено или нет Google Play Services.
+- [x] **Step 2:** `refresh()` ветвится по наличию ключа:
   - **Ключ пуст** → один запрос к Open-Meteo: `current = om.toCurrent()`, `hourly = om.toHourlyToday()`, `daily = om.toDaily()` (все 7 дней). Яндекс не вызывается — экономим лимит.
   - **Ключ задан** → параллельно (`coroutineScope`+`async`) Яндекс (с ключом из prefs) и Open-Meteo; `current/hourly/дни1–2` от Яндекса, `merge(...)` склеивает дни 3–7 от Open-Meteo по дате.
   - В обоих случаях `cache.save` и `Success(fromCache=false)`.
   - Fallback (§15.5): Яндекс упал, но ключ был → деградировать на полный Open-Meteo (а не на кэш), при его падении — кэш; Open-Meteo упал → дни 3–7 из кэша; оба/всё упало + кэш свежий → `Success(fromCache=true)`; кэш устарел/нет → `Error`.
-- [ ] **Step 3:** Run `./gradlew :app:testDebugUnitTest` — Expected: все прежние тесты PASS (компиляция целостна).
-- [ ] **Step 4: Commit** `git commit -am "feat: weather repository orchestration"`
+- [x] **Step 3:** Run `./gradlew :app:testDebugUnitTest` — Expected: все прежние тесты PASS (компиляция целостна).
+- [x] **Step 4: Commit** `git commit -am "feat: weather repository orchestration"`
 
 ---
 
