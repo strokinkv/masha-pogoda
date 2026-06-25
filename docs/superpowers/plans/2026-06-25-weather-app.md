@@ -643,9 +643,9 @@ fun weatherToAdvice(tempC: Int, code: WeatherCode, precipProb: Int, windMs: Doub
   - `hourly=temperature_2m,weather_code,precipitation_probability,is_day`
   - `daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,relative_humidity_2m_max,wind_speed_10m_max,wind_direction_10m_dominant,precipitation_probability_max,weather_code,sunrise,sunset`
 
-- [ ] **Step 2: DTO** `OpenMeteoApi.kt` — `@Serializable` классы `OpenMeteoResponse(current, hourly, daily)` (параллельные массивы) + Retrofit-интерфейс с `@Query`: `latitude`, `longitude`, `current=...`, `hourly=...`, `daily=...`, `wind_speed_unit=ms`, `timezone=auto`, `forecast_days=7`.
+- [x] **Step 2: DTO** `OpenMeteoApi.kt` — `@Serializable` классы `OpenMeteoResponse(current, hourly, daily)` (параллельные массивы) + Retrofit-интерфейс с `@Query`: `latitude`, `longitude`, `current=...`, `hourly=...`, `daily=...`, `wind_speed_unit=ms`, `timezone=auto`, `forecast_days=7`.
 
-- [ ] **Step 3: Failing-тест маппера**
+- [x] **Step 3: Failing-тест маппера**
 
 ```kotlin
 class OpenMeteoMapperTest {
@@ -665,9 +665,9 @@ class OpenMeteoMapperTest {
 }
 ```
 
-- [ ] **Step 4:** Run `--tests *OpenMeteoMapperTest` — Expected: FAIL.
-- [ ] **Step 5: Реализация** трёх мапперов: `toDaily()` — из параллельных массивов, `code=mapWmoCode(...)`, `windDirection=degreesToRu(...)`, `date=daily.time[i]`, `iconCode=weatherCodeToIcon(code, isDay=true)`; `toCurrent()` — из `current`, `iconCode=weatherCodeToIcon(code, current.is_day==1)`; `toHourlyToday()` — `hourly` по дате `daily.time[0]`, `iconCode=weatherCodeToIcon(code, hour.is_day==1)`.
-- [ ] **Step 6:** Run тест — Expected: PASS.
+- [x] **Step 4:** Run `--tests *OpenMeteoMapperTest` — Expected: FAIL.
+- [x] **Step 5: Реализация** трёх мапперов: `toDaily()` — из параллельных массивов, `code=mapWmoCode(...)`, `windDirection=degreesToRu(...)`, `date=daily.time[i]`, `iconCode=weatherCodeToIcon(code, isDay=true)`; `toCurrent()` — из `current`, `iconCode=weatherCodeToIcon(code, current.is_day==1)`; `toHourlyToday()` — `hourly` по дате `daily.time[0]`, `iconCode=weatherCodeToIcon(code, hour.is_day==1)`.
+- [x] **Step 6:** Run тест — Expected: PASS.
 - [ ] **Step 7: Commit** `git commit -am "feat: open-meteo standalone source (current+hourly+daily, TDD)"`
 
 ---
