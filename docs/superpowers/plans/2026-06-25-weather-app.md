@@ -468,7 +468,7 @@ done
   fun weatherToAdvice(tempC: Int, code: WeatherCode, precipProb: Int, windMs: Double): String  // детский совет
   ```
 
-- [ ] **Step 1: Failing-тест WMO**
+- [x] **Step 1: Failing-тест WMO**
 
 ```kotlin
 class WeatherCodeMapperTest {
@@ -491,8 +491,8 @@ class WeatherCodeMapperTest {
 }
 ```
 
-- [ ] **Step 2:** Run `./gradlew :app:testDebugUnitTest --tests *WeatherCodeMapperTest` — Expected: FAIL (unresolved reference).
-- [ ] **Step 3: Реализация** `WeatherCodeMapper.kt`
+- [x] **Step 2:** Run `./gradlew :app:testDebugUnitTest --tests *WeatherCodeMapperTest` — Expected: FAIL (unresolved reference).
+- [x] **Step 3: Реализация** `WeatherCodeMapper.kt`
 
 ```kotlin
 fun mapWmoCode(code: Int): WeatherCode = when (code) {
@@ -525,7 +525,7 @@ fun mapYandexCondition(c: String): WeatherCode = when (c.uppercase()) {
 }
 ```
 
-- [ ] **Step 4: Failing-тест ветра**
+- [x] **Step 4: Failing-тест ветра**
 
 ```kotlin
 class WindDirectionMapperTest {
@@ -540,7 +540,7 @@ class WindDirectionMapperTest {
 }
 ```
 
-- [ ] **Step 5: Реализация** `WindDirectionMapper.kt`
+- [x] **Step 5: Реализация** `WindDirectionMapper.kt`
 
 ```kotlin
 fun yandexWindToRu(direction: String): String = when (direction.uppercase()) {
@@ -552,7 +552,7 @@ fun degreesToRu(deg: Int): String =
     listOf("С","СВ","В","ЮВ","Ю","ЮЗ","З","СЗ")[(((deg % 360) + 22) / 45) % 8]
 ```
 
-- [ ] **Step 6: Failing-тест иконок**
+- [x] **Step 6: Failing-тест иконок**
 
 ```kotlin
 class WeatherIconMapTest {
@@ -566,7 +566,7 @@ class WeatherIconMapTest {
 }
 ```
 
-- [ ] **Step 7: Реализация** `weatherCodeToIcon` по таблице из раздела «Иконки погоды»:
+- [x] **Step 7: Реализация** `weatherCodeToIcon` по таблице из раздела «Иконки погоды»:
 
 ```kotlin
 fun weatherCodeToIcon(code: WeatherCode, isDay: Boolean): String {
@@ -586,9 +586,9 @@ fun weatherCodeToIcon(code: WeatherCode, isDay: Boolean): String {
 }
 ```
 
-- [ ] **Step 8:** Run `./gradlew :app:testDebugUnitTest --tests *Mapper* --tests *IconMap*` — Expected: PASS.
+- [x] **Step 8:** Run `./gradlew :app:testDebugUnitTest --tests *Mapper* --tests *IconMap*` — Expected: PASS.
 
-- [ ] **Step 9: Failing-тест совета (детская подсказка)**
+- [x] **Step 9: Failing-тест совета (детская подсказка)**
 
 ```kotlin
 class WeatherAdviceTest {
@@ -600,7 +600,7 @@ class WeatherAdviceTest {
 }
 ```
 
-- [ ] **Step 10: Реализация** `weatherToAdvice` — простые правила детским языком, приоритет: осадки → холод → жара → норма:
+- [x] **Step 10: Реализация** `weatherToAdvice` — простые правила детским языком, приоритет: осадки → холод → жара → норма:
 
 ```kotlin
 fun weatherToAdvice(tempC: Int, code: WeatherCode, precipProb: Int, windMs: Double): String = when {
@@ -615,8 +615,8 @@ fun weatherToAdvice(tempC: Int, code: WeatherCode, precipProb: Int, windMs: Doub
 }
 ```
 
-- [ ] **Step 11:** Run `--tests *AdviceTest` — Expected: PASS.
-- [ ] **Step 12: Commit** `git commit -am "feat: weather mappers + child advice (TDD)"`
+- [x] **Step 11:** Run `--tests *AdviceTest` — Expected: PASS.
+- [x] **Step 12: Commit** `git commit -am "feat: weather mappers + child advice (TDD)"`
 
 ---
 
