@@ -317,7 +317,7 @@ git add -A && git commit -m "chore: android project scaffold + wrapper + r8 rule
 
 **Verification (ручная — графика):**
 
-- [ ] **Step 1: Скопировать источник в проект**
+- [x] **Step 1: Скопировать источник в проект**
 
 ```bash
 cd /c/Users/strokin/projects/pogoda
@@ -325,7 +325,7 @@ mkdir -p art
 cp "Gemini_Generated_Image_w0dz4w0dz4w0dz4w.png" art/app_icon_source.png
 ```
 
-- [ ] **Step 2: Сгенерировать density-варианты foreground** (ImageMagick). Adaptive foreground — 108dp canvas с safe-zone 66dp по центру, поэтому изображение масштабируем до ~72% и центрируем на прозрачном холсте, чтобы маска не срезала лицо:
+- [x] **Step 2: Сгенерировать density-варианты foreground** (ImageMagick). Adaptive foreground — 108dp canvas с safe-zone 66dp по центру, поэтому изображение масштабируем до ~72% и центрируем на прозрачном холсте, чтобы маска не срезала лицо:
 
 ```bash
 # размеры foreground (px) по плотностям: mdpi=108, hdpi=162, xhdpi=216, xxhdpi=324, xxxhdpi=432
@@ -345,13 +345,13 @@ for d in "mdpi:108" "hdpi:162" "xhdpi:216" "xxhdpi:324" "xxxhdpi:432"; do
 done
 ```
 
-- [ ] **Step 3: Фон adaptive-иконки** `res/values/ic_launcher_background.xml` — сэмплировать преобладающий цвет источника (тёплый светлый, ≈`#FBE7B6`):
+- [x] **Step 3: Фон adaptive-иконки** `res/values/ic_launcher_background.xml` — сэмплировать преобладающий цвет источника (тёплый светлый, ≈`#FBE7B6`):
 
 ```xml
 <resources><color name="ic_launcher_background">#FBE7B6</color></resources>
 ```
 
-- [ ] **Step 4: Adaptive XML** `res/mipmap-anydpi-v26/ic_launcher.xml` (и `ic_launcher_round.xml` идентично):
+- [x] **Step 4: Adaptive XML** `res/mipmap-anydpi-v26/ic_launcher.xml` (и `ic_launcher_round.xml` идентично):
 
 ```xml
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
@@ -360,11 +360,11 @@ done
 </adaptive-icon>
 ```
 
-- [ ] **Step 5: Манифест** — в `<application>` указать `android:icon="@mipmap/ic_launcher"`, `android:roundIcon="@mipmap/ic_launcher_round"`, `android:label="Погода"`.
+- [x] **Step 5: Манифест** — в `<application>` указать `android:icon="@mipmap/ic_launcher"`, `android:roundIcon="@mipmap/ic_launcher_round"`, `android:label="Погода"`.
 
 - [ ] **Step 6: Manual verify:** `./gradlew :app:assembleDebug`, установить, проверить иконку на лаунчере (квадратный, круглый и «теардроп» маски не срезают лицо девочки).
 
-- [ ] **Step 7: Commit** `git commit -am "feat: app launcher icon (adaptive + legacy)"`
+- [x] **Step 7: Commit** `git commit -am "feat: app launcher icon (adaptive + legacy)"`
 
 ---
 
