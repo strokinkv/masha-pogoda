@@ -749,7 +749,7 @@ class YandexMapperTest {
 - Consumes: `CurrentWeather`, `HourlyWeather`, `DailyWeather`, `WeatherForecast`.
 - Produces: `fun merge(city: String, current: CurrentWeather, hourly: List<HourlyWeather>, yandexDays: List<DailyWeather>, openMeteoDays: List<DailyWeather>): WeatherForecast`
 
-- [ ] **Step 1: Failing-тест выравнивания по дате**
+- [x] **Step 1: Failing-тест выравнивания по дате**
 
 ```kotlin
 class ForecastMergerTest {
@@ -764,10 +764,10 @@ class ForecastMergerTest {
 }
 ```
 
-- [ ] **Step 2:** Run — Expected: FAIL.
-- [ ] **Step 3: Реализация:** взять Яндекс-дни как есть; из `openMeteoDays` добавить только те, чья `date` отсутствует среди Яндекс-дат; отсортировать по дате; обрезать до 7. Влажность дней 1–2 — из Яндекса (C2), Open-Meteo для влажности не используется.
-- [ ] **Step 4:** Run — Expected: PASS.
-- [ ] **Step 5: Commit** `git commit -am "feat: date-based source merge (TDD)"`
+- [x] **Step 2:** Run — Expected: FAIL.
+- [x] **Step 3: Реализация:** взять Яндекс-дни как есть; из `openMeteoDays` добавить только те, чья `date` отсутствует среди Яндекс-дат; отсортировать по дате; обрезать до 7. Влажность дней 1–2 — из Яндекса (C2), Open-Meteo для влажности не используется.
+- [x] **Step 4:** Run — Expected: PASS.
+- [x] **Step 5: Commit** `git commit -am "feat: date-based source merge (TDD)"`
 
 ---
 
