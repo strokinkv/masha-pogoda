@@ -444,9 +444,9 @@ done
       val cachedAt: Long)
   ```
 
-- [ ] **Step 1:** Создать пять файлов с указанными `data class`/`enum`, все помечены `@Serializable` (kotlinx).
-- [ ] **Step 2:** Run `./gradlew :app:compileDebugKotlin` — Expected: BUILD SUCCESSFUL.
-- [ ] **Step 3: Commit** `git commit -am "feat: domain models"`
+- [x] **Step 1:** Создать пять файлов с указанными `data class`/`enum`, все помечены `@Serializable` (kotlinx).
+- [x] **Step 2:** Run `./gradlew :app:compileDebugKotlin` — Expected: BUILD SUCCESSFUL.
+- [x] **Step 3: Commit** `git commit -am "feat: domain models"`
 
 ---
 
