@@ -1,0 +1,64 @@
+{
+  "data": {
+    "weatherByPoint": {
+      "now": {
+        "temperature": 21,
+        "feelsLike": 20,
+        "humidity": 64,
+        "pressure": 1009,
+        "windSpeed": 3.8,
+        "windAngle": 315,
+        "windDirection": "NORTH_WEST",
+        "condition": "CLOUDY",
+        "icon": "bkn_d"
+      },
+      "forecast": {
+        "days": [
+          {
+            "time": "2026-06-25",
+            "sunriseTime": "2026-06-25T03:45:00+03:00",
+            "sunsetTime": "2026-06-25T21:18:00+03:00",
+            "parts": {
+              "day": {
+                "minTemperature": 14,
+                "maxTemperature": 23,
+                "humidity": 70,
+                "windSpeed": 5.0,
+                "windDirection": "WEST",
+                "condition": "RAIN",
+                "precProbability": 65.0,
+                "precType": "RAIN",
+                "icon": "ovc_ra_d"
+              }
+            },
+            "hours": [
+              {"time": "2026-06-25T09:00:00+03:00", "temperature": 19, "condition": "CLOUDY", "precProbability": 10.0, "icon": "bkn_d"},
+              {"time": "2026-06-25T12:00:00+03:00", "temperature": 21, "condition": "RAIN", "precProbability": 65.0, "icon": "ovc_ra_d"},
+              {"time": "2026-06-25T21:00:00+03:00", "temperature": 17, "condition": "RAIN", "precProbability": 70.0, "icon": "ovc_ra_n"}
+            ]
+          },
+          {
+            "time": "2026-06-26",
+            "sunriseTime": "2026-06-26T03:46:00+03:00",
+            "sunsetTime": "2026-06-26T21:18:00+03:00",
+            "parts": {
+              "day": {
+                "minTemperature": 13,
+                "maxTemperature": 24,
+                "humidity": 62,
+                "windSpeed": 4.2,
+                "windDirection": "SOUTH_WEST",
+                "condition": "PARTLY_CLOUDY",
+                "precProbability": null,
+                "precType": null,
+                "icon": "skc_d"
+              }
+            },
+            "hours": []
+          }
+        ]
+      }
+    }
+  }
+}
+

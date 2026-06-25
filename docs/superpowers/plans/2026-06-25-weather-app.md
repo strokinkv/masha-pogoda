@@ -699,10 +699,10 @@ class OpenMeteoMapperTest {
 - `days.hours` (тип `ForecastHour`): `time temperature condition precProbability icon(format: CODE)`
 - ⚠️ НЕ существует `precProb`; влажность/давление ЕСТЬ; `icon` требует `format`. Запрашиваем `icon(format: CODE)` → строка вида `bkn_n` **только чтобы взять суффикс `_d/_n`** (день/ночь); сам арт — наш (`weatherCodeToIcon`). `IconFormat` = CODE/EMOJI/PNG_24..128/SVG.
 
-- [ ] **Step 1: GraphQL-строка** `YandexQuery.kt` — константа с запросом из проверенных полей выше (плейсхолдеры lat/lon через `String.format`).
+- [x] **Step 1: GraphQL-строка** `YandexQuery.kt` — константа с запросом из проверенных полей выше (плейсхолдеры lat/lon через `String.format`).
 - [ ] **Step 2: Сохранить фикстуру** `yandex.json` — реальный ответ на этот запрос (структура `{"data":{"weatherByPoint":{"now":{...},"forecast":{"days":[...]}}}}`).
-- [ ] **Step 3: DTO** `@Serializable` под фикстуру (с `ignoreUnknownKeys`).
-- [ ] **Step 4: Failing-тест**
+- [x] **Step 3: DTO** `@Serializable` под фикстуру (с `ignoreUnknownKeys`).
+- [x] **Step 4: Failing-тест**
 
 ```kotlin
 class YandexMapperTest {
@@ -717,10 +717,10 @@ class YandexMapperTest {
 }
 ```
 
-- [ ] **Step 5:** Run — Expected: FAIL.
-- [ ] **Step 6: Реализация** мапперов: `condition`→`mapYandexCondition`, `windDirection`→`yandexWindToRu`, `precProbability` (nullable)→`?.toInt() ?: 0`, `date = days[i].time` (дата из ISO). **Иконка:** `isDay = !icon.endsWith("_n")` (день/ночь из суффикса кода Яндекса), затем `iconCode = weatherCodeToIcon(code, isDay)` — рисуем свой ассет, Яндекс-арт не используем.
-- [ ] **Step 7:** Run — Expected: PASS.
-- [ ] **Step 8: Commit** `git commit -am "feat: yandex graphql api+mapper (TDD)"`
+- [x] **Step 5:** Run — Expected: FAIL.
+- [x] **Step 6: Реализация** мапперов: `condition`→`mapYandexCondition`, `windDirection`→`yandexWindToRu`, `precProbability` (nullable)→`?.toInt() ?: 0`, `date = days[i].time` (дата из ISO). **Иконка:** `isDay = !icon.endsWith("_n")` (день/ночь из суффикса кода Яндекса), затем `iconCode = weatherCodeToIcon(code, isDay)` — рисуем свой ассет, Яндекс-арт не используем.
+- [x] **Step 7:** Run — Expected: PASS.
+- [x] **Step 8: Commit** `git commit -am "feat: yandex graphql api+mapper (TDD)"`
 
 ---
 
