@@ -168,6 +168,7 @@ class MainActivity : AppCompatActivity() {
         iconLoader.load(binding.currentIcon, current.iconCode)
         animateCurrentIcon()
         hourlyAdapter.submitList(HourlyForecastWindow.nextHours(forecast.hourly, now, limit = 24))
+        dailyAdapter.today = now.toLocalDate()
         dailyAdapter.submitList(forecast.daily)
     }
 
