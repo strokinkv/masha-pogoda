@@ -3,4 +3,21 @@
     <string name="app_name">Погода</string>
     <string name="weather_icon">Иконка погоды</string>
     <string name="retry">Повторить</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_icon">⚙</string>
+    <string name="parent_lock_title">Проверка для взрослого</string>
+    <string name="parent_lock_question">Сколько будет 7 + 5?</string>
+    <string name="parent_lock_ok">Открыть</string>
+    <string name="parent_lock_wrong">Ответ неверный</string>
+    <string name="yandex_key_label">Ключ Яндекс.Погоды</string>
+    <string name="yandex_key_hint">Оставьте пустым — прогноз только от Open-Meteo.</string>
+    <string name="mode_gps">GPS</string>
+    <string name="mode_manual">Ручной ввод</string>
+    <string name="city_label">Город</string>
+    <string name="search_city">Найти город</string>
+    <string name="save_settings">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="city_not_found">Не получилось найти город</string>
+    <string name="city_found">Город найден</string>
+    <string name="settings_about">Версия %1$s. Источники: Open-Meteo CC BY 4.0; Яндекс.Погода используется только если задан ключ; Nominatim для поиска города.</string>
 </resources>

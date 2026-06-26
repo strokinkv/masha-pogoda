@@ -1,10 +1,14 @@
 package masha.pogoda.ui.main
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -31,6 +35,7 @@ import masha.pogoda.databinding.ActivityMainBinding
 import masha.pogoda.di.ServiceLocator
 import masha.pogoda.domain.model.WeatherForecast
 import masha.pogoda.ui.icon.WeatherIconLoader
+import masha.pogoda.ui.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -38,9 +43,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var hourlyAdapter: HourlyAdapter
     private lateinit var dailyAdapter: DailyAdapter
     private lateinit var iconLoader: WeatherIconLoader
+    private lateinit var settingsLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        settingsLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.refresh()
+            }
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         applyTimeOfDayBackground()
@@ -54,6 +67,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
         binding.retryButton.setOnClickListener { viewModel.refresh() }
+        binding.settingsButton.setOnClickListener {
+            settingsLauncher.launch(Intent(this, SettingsActivity::class.java))
+        }
 
         requestLocationPermissionIfNeeded()
         observeState()
