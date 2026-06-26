@@ -3,7 +3,7 @@
     android:layout_width="76dp"
     android:layout_height="104dp"
     android:layout_marginEnd="10dp"
-    android:background="#FFFFFF"
+    android:background="@drawable/bg_panel"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="8dp">
@@ -41,4 +41,3 @@
         android:textColor="#4FA3E3"
         android:textSize="11sp" />
 </LinearLayout>
-

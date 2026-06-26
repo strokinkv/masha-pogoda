@@ -5,9 +5,10 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/rootContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFF7E8">
+        android:background="@drawable/bg_gradient_day">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/contentScroll"
@@ -26,7 +27,7 @@
                     android:id="@+id/bannerText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FFF0B8"
+                    android:background="@drawable/bg_banner"
                     android:padding="12dp"
                     android:textColor="#2B2B2B"
                     android:textSize="14sp"
@@ -63,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="#2B2B2B"
-                    android:textSize="72sp"
+                    android:textSize="80sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -98,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:background="#DDF4FF"
+                    android:background="@drawable/bg_advice"
                     android:padding="16dp"
                     android:textColor="#2B2B2B"
                     android:textSize="18sp"
@@ -167,4 +168,3 @@
         </LinearLayout>
     </FrameLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-

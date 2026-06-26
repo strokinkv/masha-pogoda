@@ -17,9 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationServices
 import java.io.File
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import kotlinx.coroutines.launch
+import masha.pogoda.R
 import masha.pogoda.data.cache.WeatherCacheManager
 import masha.pogoda.data.location.LocationProvider
 import masha.pogoda.data.mapper.weatherToAdvice
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applyTimeOfDayBackground()
 
         iconLoader = WeatherIconLoader(this)
         hourlyAdapter = HourlyAdapter(iconLoader)
@@ -95,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         binding.bannerText.visibility = if (state.banner == null) View.GONE else View.VISIBLE
         binding.bannerText.text = state.banner.orEmpty()
         bindForecast(state.forecast)
+        animateContent()
     }
 
     private fun bindForecast(forecast: WeatherForecast) {
@@ -114,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         )
         binding.currentIcon.contentDescription = current.description
         iconLoader.load(binding.currentIcon, current.iconCode)
+        animateCurrentIcon()
         hourlyAdapter.submitList(forecast.hourly)
         dailyAdapter.submitList(forecast.daily)
     }
@@ -174,8 +179,41 @@ class MainActivity : AppCompatActivity() {
     private fun Long.formatTime(): String =
         SimpleDateFormat("HH:mm", Locale("ru")).format(Date(this))
 
+    private fun applyTimeOfDayBackground() {
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val background = when (hour) {
+            in 5..10 -> R.drawable.bg_gradient_morning
+            in 11..16 -> R.drawable.bg_gradient_day
+            in 17..21 -> R.drawable.bg_gradient_evening
+            else -> R.drawable.bg_gradient_night
+        }
+        binding.rootContainer.setBackgroundResource(background)
+    }
+
+    private fun animateContent() {
+        binding.mainContent.alpha = 0f
+        binding.mainContent.animate()
+            .alpha(1f)
+            .setDuration(200L)
+            .start()
+    }
+
+    private fun animateCurrentIcon() {
+        binding.currentIcon.animate()
+            .scaleX(1.04f)
+            .scaleY(1.04f)
+            .setDuration(450L)
+            .withEndAction {
+                binding.currentIcon.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(450L)
+                    .start()
+            }
+            .start()
+    }
+
     private companion object {
         const val LOCATION_REQUEST_CODE = 100
     }
 }
-
