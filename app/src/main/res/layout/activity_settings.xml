@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_day"
@@ -24,14 +25,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:hint="@string/yandex_key_label">
+            android:hint="@string/yandex_key_label"
+            android:textColorHint="#4A5560"
+            app:hintTextColor="#2B2B2B"
+            app:boxStrokeColor="#4A5560">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/yandexKeyInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textVisiblePassword"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#2B2B2B" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -42,6 +47,7 @@
             android:linksClickable="true"
             android:text="@string/yandex_key_hint"
             android:textColor="#2B2B2B"
+            android:textColorLink="#1565A8"
             android:textSize="13sp" />
 
         <RadioGroup
@@ -73,14 +79,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="@string/city_label">
+            android:hint="@string/city_label"
+            android:textColorHint="#4A5560"
+            app:hintTextColor="#2B2B2B"
+            app:boxStrokeColor="#4A5560">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/cityInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#2B2B2B" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -88,7 +98,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/search_city" />
+            android:text="@string/search_city"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#1565A8" />
 
         <CheckBox
             android:id="@+id/widgetHourlyForecastCheckBox"
@@ -123,7 +135,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="@string/save_settings" />
+            android:text="@string/save_settings"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#1565A8" />
 
         <Button
             android:id="@+id/cancelButton"
@@ -131,6 +145,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/cancel" />
+            android:text="@string/cancel"
+            android:textColor="#1565A8"
+            app:strokeColor="#1565A8" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
