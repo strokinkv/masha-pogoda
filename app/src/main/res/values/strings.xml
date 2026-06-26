@@ -27,6 +27,6 @@
     <string name="widget_description">Погода на 5 дней или ближайшие часы</string>
     <string name="widget_empty_title">Погода ждёт</string>
     <string name="widget_empty_details">Откройте приложение, чтобы загрузить прогноз.</string>
-    <string name="widget_details">Ощущ. %1$d°  Вл. %2$d%%  Ветер %3$.1f м/с</string>
+    <string name="widget_details">Ощущ. %1$d°  %2$d…%3$d°  Ветер %4$.1f м/с</string>
     <string name="widget_updated">Обновлено %1$s</string>
 </resources>

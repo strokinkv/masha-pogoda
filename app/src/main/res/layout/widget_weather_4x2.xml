@@ -19,7 +19,7 @@
             android:layout_weight="1"
             android:maxLines="1"
             android:textColor="#2B2B2B"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:gravity="top|end"
             android:maxLines="1"
             android:textColor="#5B6470"
-            android:textSize="8sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,8 +43,8 @@
 
         <ImageView
             android:id="@+id/widgetCurrentIcon"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:contentDescription="@string/weather_icon" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textColor="#2B2B2B"
-            android:textSize="30sp"
+            android:textSize="42sp"
             android:textStyle="bold" />
 
         <TextView
@@ -62,14 +62,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:maxLines="2"
+            android:maxLines="3"
             android:textColor="#5B6470"
-            android:textSize="11sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="68dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -87,12 +87,12 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:id="@+id/widgetDay1Icon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/weather_icon" />
 
             <TextView
@@ -102,7 +102,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -120,12 +120,12 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:id="@+id/widgetDay2Icon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/weather_icon" />
 
             <TextView
@@ -135,7 +135,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -153,12 +153,12 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:id="@+id/widgetDay3Icon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/weather_icon" />
 
             <TextView
@@ -168,7 +168,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -186,12 +186,12 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:id="@+id/widgetDay4Icon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/weather_icon" />
 
             <TextView
@@ -201,7 +201,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -219,12 +219,12 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:id="@+id/widgetDay5Icon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:contentDescription="@string/weather_icon" />
 
             <TextView
@@ -234,7 +234,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="9sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

@@ -78,10 +78,16 @@ class WeatherWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.widgetTemp, model.temperature)
             views.setTextViewText(
                 R.id.widgetDetails,
-                context.getString(R.string.widget_details, model.feelsLike, model.humidity, model.windSpeed)
+                context.getString(
+                    R.string.widget_details,
+                    model.feelsLike,
+                    model.todayMin,
+                    model.todayMax,
+                    model.windSpeed
+                )
             )
             views.setTextViewText(R.id.widgetUpdated, context.getString(R.string.widget_updated, model.updatedAt))
-            views.setImageViewBitmap(R.id.widgetCurrentIcon, iconLoader.renderBitmap(model.iconCode, 112))
+            views.setImageViewBitmap(R.id.widgetCurrentIcon, iconLoader.renderBitmap(model.iconCode, 150))
 
             entryLabelIds.indices.forEach { index ->
                 val entry = model.entries.getOrNull(index)
@@ -92,7 +98,7 @@ class WeatherWidget : AppWidgetProvider() {
                 if (entry != null) {
                     views.setTextViewText(entryLabelIds[index], entry.label)
                     views.setTextViewText(entryTempIds[index], entry.temperature)
-                    views.setImageViewBitmap(entryIconIds[index], iconLoader.renderBitmap(entry.iconCode, 56))
+                    views.setImageViewBitmap(entryIconIds[index], iconLoader.renderBitmap(entry.iconCode, 80))
                 }
             }
 

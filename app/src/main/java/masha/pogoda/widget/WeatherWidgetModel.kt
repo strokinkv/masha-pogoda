@@ -21,7 +21,8 @@ data class WeatherWidgetModel(
     val iconCode: String,
     val temperature: String,
     val feelsLike: Int,
-    val humidity: Int,
+    val todayMin: Int,
+    val todayMax: Int,
     val windSpeed: Double,
     val updatedAt: String,
     val entries: List<WeatherWidgetEntry>
@@ -33,13 +34,15 @@ data class WeatherWidgetModel(
             now: LocalDateTime? = null
         ): WeatherWidgetModel {
             val current = forecast.current
+            val today = forecast.daily.firstOrNull()
             val effectiveNow = now ?: HourlyForecastWindow.nowInZone(forecast.timezone)
             return WeatherWidgetModel(
                 city = forecast.city,
                 iconCode = current.iconCode,
                 temperature = "${current.temperature}°",
                 feelsLike = current.feelsLike,
-                humidity = current.humidity,
+                todayMin = today?.tempMin ?: current.temperature,
+                todayMax = today?.tempMax ?: current.temperature,
                 windSpeed = current.windSpeed,
                 updatedAt = forecast.cachedAt.formatTime(),
                 entries = if (showHourly && forecast.hourly.isNotEmpty()) {
