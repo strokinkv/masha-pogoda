@@ -854,9 +854,9 @@ class WeatherCacheManagerTest {
 - Consumes: `WeatherRepository`, `LocationProvider`, `AppPrefs`.
 - Produces: `MainViewModel.uiState: StateFlow<MainUiState>` (`Loading`/`Content(forecast, banner)`/`Empty(retry)`); `fun refresh()`.
 
-- [ ] **Step 1:** `MainUiState` sealed-класс. ViewModel определяет координаты (GPS или сохранённый город из prefs), зовёт `repository.refresh`, мапит `WeatherResult` в `MainUiState` (баннер «Нет подключения — данные на <время>» при `stale`/`fromCache`).
-- [ ] **Step 2:** Run `compileDebugKotlin` — SUCCESS.
-- [ ] **Step 3: Commit** `git commit -am "feat: main viewmodel + ui state"`
+- [x] **Step 1:** `MainUiState` sealed-класс. ViewModel определяет координаты (GPS или сохранённый город из prefs), зовёт `repository.refresh`, мапит `WeatherResult` в `MainUiState` (баннер «Нет подключения — данные на <время>» при `stale`/`fromCache`).
+- [x] **Step 2:** Run `compileDebugKotlin` — SUCCESS.
+- [x] **Step 3: Commit** `git commit -am "feat: main viewmodel + ui state"`
 
 ---
 
