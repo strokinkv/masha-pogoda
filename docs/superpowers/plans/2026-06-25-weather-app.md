@@ -916,9 +916,9 @@ class WeatherCacheManagerTest {
 
 **Verification (ручная):**
 - [ ] **Step 1:** `WeatherSyncWorker(CoroutineWorker)` → `repository.refresh(prefs)`; при успехе обновить виджет; `Result.retry()` при ошибке.
-- [ ] **Step 2:** `PeriodicWorkRequest` 60 мин, `Constraints` (NetworkType.CONNECTED), `BackoffPolicy.EXPONENTIAL`, `ExistingPeriodicWorkPolicy.KEEP`. Планировать при старте приложения.
+- [x] **Step 2:** `PeriodicWorkRequest` 60 мин, `Constraints` (NetworkType.CONNECTED), `BackoffPolicy.EXPONENTIAL`, `ExistingPeriodicWorkPolicy.KEEP`. Планировать при старте приложения.
 - [ ] **Step 3: Manual verify:** `adb shell cmd jobscheduler run -f <pkg> <id>` или WorkManager-инспектор — кэш обновляется.
-- [ ] **Step 4: Commit** `git commit -am "feat: hourly background sync worker"`
+- [x] **Step 4: Commit** `git commit -am "feat: hourly background sync worker"`
 
 ---
 
