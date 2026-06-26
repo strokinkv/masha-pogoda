@@ -7,7 +7,8 @@ sealed class MainUiState {
 
     data class Content(
         val forecast: WeatherForecast,
-        val cacheBannerTimeMillis: Long?
+        val cacheBannerTimeMillis: Long?,
+        val isFresh: Boolean = false
     ) : MainUiState()
 
     data class Empty(

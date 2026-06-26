@@ -10,7 +10,8 @@ fun merge(
     current: CurrentWeather,
     hourly: List<HourlyWeather>,
     yandexDays: List<DailyWeather>,
-    openMeteoDays: List<DailyWeather>
+    openMeteoDays: List<DailyWeather>,
+    timezone: String? = null
 ): WeatherForecast {
     val yandexDates = yandexDays.mapTo(mutableSetOf()) { it.date }
     val mergedDays = (yandexDays + openMeteoDays.filterNot { it.date in yandexDates })
@@ -22,7 +23,8 @@ fun merge(
         current = current,
         hourly = hourly,
         daily = mergedDays,
-        cachedAt = System.currentTimeMillis()
+        cachedAt = System.currentTimeMillis(),
+        timezone = timezone
     )
 }
 

@@ -11,7 +11,6 @@ import masha.pogoda.data.prefs.AppPrefs
 import masha.pogoda.data.prefs.AppPrefs.LocationMode
 import masha.pogoda.data.repository.WeatherRepository
 import masha.pogoda.data.repository.WeatherResult
-import masha.pogoda.domain.model.WeatherForecast
 
 class MainViewModel(
     private val repository: WeatherRepository,
@@ -27,7 +26,10 @@ class MainViewModel(
 
     fun refresh() {
         viewModelScope.launch {
-            _uiState.value = MainUiState.Loading
+            // Cache-first: сразу показываем сохранённый прогноз (если есть),
+            // иначе спиннер. Затем тихо обновляем из сети.
+            val cached = repository.cached()
+            _uiState.value = cached?.toUiState() ?: MainUiState.Loading
 
             val (lat, lon) = resolveLocation()
             val result = repository.refresh(lat, lon, prefs.city)
@@ -49,23 +51,18 @@ class MainViewModel(
     private fun WeatherResult.toUiState(): MainUiState = when (this) {
         is WeatherResult.Success -> MainUiState.Content(
             forecast = forecast,
-            cacheBannerTimeMillis = cacheBannerTime(forecast, fromCache, stale)
+            // Баннер только для устаревших данных; свежий кэш и сеть показываем без него.
+            cacheBannerTimeMillis = forecast.cachedAt.takeIf { stale },
+            // isFresh = пришло из сети (не из кэша) → можно обновить виджет.
+            isFresh = !fromCache
         )
 
         is WeatherResult.Error -> cached?.let { forecast ->
             MainUiState.Content(
                 forecast = forecast,
-                cacheBannerTimeMillis = cacheBannerTime(forecast, fromCache = true, stale = true)
+                cacheBannerTimeMillis = forecast.cachedAt,
+                isFresh = false
             )
         } ?: MainUiState.Empty()
-    }
-
-    private fun cacheBannerTime(
-        forecast: WeatherForecast,
-        fromCache: Boolean,
-        stale: Boolean
-    ): Long? {
-        if (!fromCache && !stale) return null
-        return forecast.cachedAt
     }
 }

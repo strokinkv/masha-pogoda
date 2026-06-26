@@ -47,6 +47,22 @@ fun weatherCodeToIcon(code: WeatherCode, isDay: Boolean): String {
     }
 }
 
+fun WeatherCode.toRuDescription(): String = when (this) {
+    WeatherCode.CLEAR -> "Ясно"
+    WeatherCode.PARTLY_CLOUDY -> "Малооблачно"
+    WeatherCode.CLOUDY -> "Облачно"
+    WeatherCode.OVERCAST -> "Пасмурно"
+    WeatherCode.FOG -> "Туман"
+    WeatherCode.RAIN_LIGHT -> "Небольшой дождь"
+    WeatherCode.RAIN -> "Дождь"
+    WeatherCode.RAIN_HEAVY -> "Сильный дождь"
+    WeatherCode.SNOW_LIGHT -> "Небольшой снег"
+    WeatherCode.SNOW -> "Снег"
+    WeatherCode.SNOWFALL -> "Снегопад"
+    WeatherCode.THUNDERSTORM -> "Гроза"
+    WeatherCode.MIXED -> "Мокрый снег"
+}
+
 fun weatherToAdvice(
     tempC: Int,
     code: WeatherCode,

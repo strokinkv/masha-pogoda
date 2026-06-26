@@ -5,8 +5,8 @@ import org.junit.Test
 
 class WeatherSyncPolicyTest {
     @Test
-    fun usesHourlyUniqueConnectedWork() {
+    fun usesTwoHourUniqueConnectedWork() {
         assertEquals("weather_hourly_sync", WeatherSyncPolicy.UNIQUE_WORK_NAME)
-        assertEquals(60L, WeatherSyncPolicy.REPEAT_MINUTES)
+        assertEquals(120L, WeatherSyncPolicy.REPEAT_MINUTES)
     }
 }

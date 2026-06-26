@@ -12,19 +12,22 @@ class SettingsFormTest {
         val snapshot = SettingsSnapshot(
             city = "Москва",
             locationMode = LocationMode.GPS,
-            userYandexKey = "old"
+            userYandexKey = "old",
+            widgetHourlyForecast = false
         )
 
         val result = SettingsForm.normalize(
             current = snapshot,
             cityInput = "  Казань  ",
             locationMode = LocationMode.MANUAL,
-            yandexKeyInput = "   "
+            yandexKeyInput = "   ",
+            widgetHourlyForecast = true
         )
 
         assertEquals("Казань", result.snapshot.city)
         assertEquals(LocationMode.MANUAL, result.snapshot.locationMode)
         assertNull(result.snapshot.userYandexKey)
+        assertTrue(result.snapshot.widgetHourlyForecast)
         assertTrue(result.changed)
     }
 }

@@ -25,7 +25,7 @@ object WeatherSyncScheduler {
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             WeatherSyncPolicy.UNIQUE_WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.UPDATE,
             request
         )
     }

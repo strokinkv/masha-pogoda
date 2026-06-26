@@ -4,7 +4,6 @@ import masha.pogoda.data.api.YandexResponse
 import masha.pogoda.domain.model.CurrentWeather
 import masha.pogoda.domain.model.DailyWeather
 import masha.pogoda.domain.model.HourlyWeather
-import masha.pogoda.domain.model.WeatherCode
 
 fun YandexResponse.toCurrent(): CurrentWeather {
     val now = data.weatherByPoint.now
@@ -18,13 +17,13 @@ fun YandexResponse.toCurrent(): CurrentWeather {
         pressure = now.pressure,
         code = code,
         iconCode = weatherCodeToIcon(code, now.icon.isDayIcon()),
-        description = code.toYandexRuDescription(),
+        description = code.toRuDescription(),
         updatedAt = System.currentTimeMillis()
     )
 }
 
 fun YandexResponse.toHourly(): List<HourlyWeather> =
-    data.weatherByPoint.forecast.days.firstOrNull()?.hours.orEmpty().map { hour ->
+    data.weatherByPoint.forecast.days.flatMap { it.hours }.map { hour ->
         val code = mapYandexCondition(hour.condition)
         HourlyWeather(
             time = hour.time,
@@ -56,20 +55,3 @@ fun YandexResponse.toDailyHead(): List<DailyWeather> =
     }
 
 private fun String.isDayIcon(): Boolean = !endsWith("_n")
-
-private fun WeatherCode.toYandexRuDescription(): String = when (this) {
-    WeatherCode.CLEAR -> "Ясно"
-    WeatherCode.PARTLY_CLOUDY -> "Малооблачно"
-    WeatherCode.CLOUDY -> "Облачно"
-    WeatherCode.OVERCAST -> "Пасмурно"
-    WeatherCode.FOG -> "Туман"
-    WeatherCode.RAIN_LIGHT -> "Небольшой дождь"
-    WeatherCode.RAIN -> "Дождь"
-    WeatherCode.RAIN_HEAVY -> "Сильный дождь"
-    WeatherCode.SNOW_LIGHT -> "Небольшой снег"
-    WeatherCode.SNOW -> "Снег"
-    WeatherCode.SNOWFALL -> "Снегопад"
-    WeatherCode.THUNDERSTORM -> "Гроза"
-    WeatherCode.MIXED -> "Мокрый снег"
-}
-

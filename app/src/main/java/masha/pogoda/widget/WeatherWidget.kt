@@ -12,6 +12,7 @@ import android.widget.RemoteViews
 import java.io.File
 import masha.pogoda.R
 import masha.pogoda.data.cache.WeatherCacheManager
+import masha.pogoda.data.prefs.AppPrefs
 import masha.pogoda.ui.icon.WeatherIconLoader
 import masha.pogoda.ui.main.MainActivity
 
@@ -27,9 +28,27 @@ class WeatherWidget : AppWidgetProvider() {
     }
 
     companion object {
-        private val dayDateIds = intArrayOf(R.id.widgetDay1Date, R.id.widgetDay2Date, R.id.widgetDay3Date)
-        private val dayIconIds = intArrayOf(R.id.widgetDay1Icon, R.id.widgetDay2Icon, R.id.widgetDay3Icon)
-        private val dayTempIds = intArrayOf(R.id.widgetDay1Temp, R.id.widgetDay2Temp, R.id.widgetDay3Temp)
+        private val entryLabelIds = intArrayOf(
+            R.id.widgetDay1Date,
+            R.id.widgetDay2Date,
+            R.id.widgetDay3Date,
+            R.id.widgetDay4Date,
+            R.id.widgetDay5Date
+        )
+        private val entryIconIds = intArrayOf(
+            R.id.widgetDay1Icon,
+            R.id.widgetDay2Icon,
+            R.id.widgetDay3Icon,
+            R.id.widgetDay4Icon,
+            R.id.widgetDay5Icon
+        )
+        private val entryTempIds = intArrayOf(
+            R.id.widgetDay1Temp,
+            R.id.widgetDay2Temp,
+            R.id.widgetDay3Temp,
+            R.id.widgetDay4Temp,
+            R.id.widgetDay5Temp
+        )
 
         fun updateAll(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
@@ -54,7 +73,7 @@ class WeatherWidget : AppWidgetProvider() {
             }
 
             val iconLoader = WeatherIconLoader(context)
-            val model = WeatherWidgetModel.from(forecast)
+            val model = WeatherWidgetModel.from(forecast, AppPrefs(context).widgetHourlyForecast)
             views.setTextViewText(R.id.widgetCity, model.city)
             views.setTextViewText(R.id.widgetTemp, model.temperature)
             views.setTextViewText(
@@ -64,16 +83,16 @@ class WeatherWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.widgetUpdated, context.getString(R.string.widget_updated, model.updatedAt))
             views.setImageViewBitmap(R.id.widgetCurrentIcon, iconLoader.renderBitmap(model.iconCode, 112))
 
-            dayDateIds.indices.forEach { index ->
-                val day = model.days.getOrNull(index)
-                val visibility = if (day == null) View.INVISIBLE else View.VISIBLE
-                views.setViewVisibility(dayDateIds[index], visibility)
-                views.setViewVisibility(dayIconIds[index], visibility)
-                views.setViewVisibility(dayTempIds[index], visibility)
-                if (day != null) {
-                    views.setTextViewText(dayDateIds[index], day.dateLabel)
-                    views.setTextViewText(dayTempIds[index], day.temperatureRange)
-                    views.setImageViewBitmap(dayIconIds[index], iconLoader.renderBitmap(day.iconCode, 64))
+            entryLabelIds.indices.forEach { index ->
+                val entry = model.entries.getOrNull(index)
+                val visibility = if (entry == null) View.INVISIBLE else View.VISIBLE
+                views.setViewVisibility(entryLabelIds[index], visibility)
+                views.setViewVisibility(entryIconIds[index], visibility)
+                views.setViewVisibility(entryTempIds[index], visibility)
+                if (entry != null) {
+                    views.setTextViewText(entryLabelIds[index], entry.label)
+                    views.setTextViewText(entryTempIds[index], entry.temperature)
+                    views.setImageViewBitmap(entryIconIds[index], iconLoader.renderBitmap(entry.iconCode, 56))
                 }
             }
 
@@ -96,7 +115,11 @@ class WeatherWidget : AppWidgetProvider() {
                 R.id.widgetDay2Date,
                 R.id.widgetDay2Temp,
                 R.id.widgetDay3Date,
-                R.id.widgetDay3Temp
+                R.id.widgetDay3Temp,
+                R.id.widgetDay4Date,
+                R.id.widgetDay4Temp,
+                R.id.widgetDay5Date,
+                R.id.widgetDay5Temp
             ).forEach { views.setTextColor(it, textColor) }
             views.setTextColor(R.id.widgetDetails, mutedColor)
             views.setTextColor(R.id.widgetUpdated, mutedColor)

@@ -3,10 +3,7 @@ package masha.pogoda.work
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import java.io.File
-import masha.pogoda.data.cache.WeatherCacheManager
 import masha.pogoda.data.prefs.AppPrefs
-import masha.pogoda.data.repository.WeatherRepository
 import masha.pogoda.data.repository.WeatherResult
 import masha.pogoda.di.ServiceLocator
 import masha.pogoda.widget.WeatherWidget
@@ -17,14 +14,7 @@ class WeatherSyncWorker(
 ) : CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
         val prefs = AppPrefs(applicationContext)
-        ServiceLocator.yandexKeyProvider = { prefs.yandexKey }
-
-        val repository = WeatherRepository(
-            openMeteoApi = ServiceLocator.openMeteoApi,
-            yandexApi = ServiceLocator.yandexApi,
-            cache = WeatherCacheManager(File(applicationContext.filesDir, "weather_cache")),
-            yandexKeyProvider = { prefs.yandexKey }
-        )
+        val repository = ServiceLocator.weatherRepository(applicationContext)
 
         return when (repository.refresh(prefs.lat, prefs.lon, prefs.city)) {
             is WeatherResult.Success -> {

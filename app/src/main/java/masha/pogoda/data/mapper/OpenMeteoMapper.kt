@@ -7,10 +7,22 @@ import masha.pogoda.data.api.OpenMeteoResponse
 import masha.pogoda.domain.model.CurrentWeather
 import masha.pogoda.domain.model.DailyWeather
 import masha.pogoda.domain.model.HourlyWeather
-import masha.pogoda.domain.model.WeatherCode
 
-fun OpenMeteoResponse.toDaily(): List<DailyWeather> =
-    daily.time.indices.map { index ->
+fun OpenMeteoResponse.toDaily(): List<DailyWeather> {
+    // API возвращает параллельные массивы; берём пересечение длин, чтобы
+    // не словить IndexOutOfBounds, если какой-то массив окажется короче.
+    val count = listOf(
+        daily.time.size,
+        daily.weatherCode.size,
+        daily.temperatureMin.size,
+        daily.temperatureMax.size,
+        daily.apparentTemperatureMax.size,
+        daily.relativeHumidityMax.size,
+        daily.windSpeedMax.size,
+        daily.windDirectionDominant.size,
+        daily.precipitationProbabilityMax.size
+    ).min()
+    return (0 until count).map { index ->
         val code = mapWmoCode(daily.weatherCode[index])
         DailyWeather(
             date = daily.time[index],
@@ -27,6 +39,7 @@ fun OpenMeteoResponse.toDaily(): List<DailyWeather> =
             sunset = daily.sunset.getOrNull(index)
         )
     }
+}
 
 fun OpenMeteoResponse.toCurrent(): CurrentWeather {
     val code = mapWmoCode(current.weatherCode)
@@ -44,20 +57,24 @@ fun OpenMeteoResponse.toCurrent(): CurrentWeather {
     )
 }
 
-fun OpenMeteoResponse.toHourlyToday(): List<HourlyWeather> {
-    val today = daily.time.firstOrNull() ?: return emptyList()
-    return hourly.time.indices
-        .filter { hourly.time[it].startsWith(today) }
-        .map { index ->
-            val code = mapWmoCode(hourly.weatherCode[index])
-            HourlyWeather(
-                time = hourly.time[index],
-                temperature = hourly.temperature[index].roundToInt(),
-                code = code,
-                iconCode = weatherCodeToIcon(code, hourly.isDay[index] == 1),
-                precipProb = hourly.precipitationProbability[index]
-            )
-        }
+fun OpenMeteoResponse.toHourly(): List<HourlyWeather> {
+    val count = listOf(
+        hourly.time.size,
+        hourly.weatherCode.size,
+        hourly.temperature.size,
+        hourly.isDay.size,
+        hourly.precipitationProbability.size
+    ).min()
+    return (0 until count).map { index ->
+        val code = mapWmoCode(hourly.weatherCode[index])
+        HourlyWeather(
+            time = hourly.time[index],
+            temperature = hourly.temperature[index].roundToInt(),
+            code = code,
+            iconCode = weatherCodeToIcon(code, hourly.isDay[index] == 1),
+            precipProb = hourly.precipitationProbability[index]
+        )
+    }
 }
 
 private fun String.toEpochMillis(timezone: String): Long =
@@ -67,20 +84,3 @@ private fun String.toEpochMillis(timezone: String): Long =
             .toInstant()
             .toEpochMilli()
     }.getOrDefault(0L)
-
-private fun WeatherCode.toRuDescription(): String = when (this) {
-    WeatherCode.CLEAR -> "Ясно"
-    WeatherCode.PARTLY_CLOUDY -> "Малооблачно"
-    WeatherCode.CLOUDY -> "Облачно"
-    WeatherCode.OVERCAST -> "Пасмурно"
-    WeatherCode.FOG -> "Туман"
-    WeatherCode.RAIN_LIGHT -> "Небольшой дождь"
-    WeatherCode.RAIN -> "Дождь"
-    WeatherCode.RAIN_HEAVY -> "Сильный дождь"
-    WeatherCode.SNOW_LIGHT -> "Небольшой снег"
-    WeatherCode.SNOW -> "Снег"
-    WeatherCode.SNOWFALL -> "Снегопад"
-    WeatherCode.THUNDERSTORM -> "Гроза"
-    WeatherCode.MIXED -> "Мокрый снег"
-}
-

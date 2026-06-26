@@ -11,7 +11,6 @@ import masha.pogoda.data.mapper.toCurrent
 import masha.pogoda.data.mapper.toDaily
 import masha.pogoda.data.mapper.toDailyHead
 import masha.pogoda.data.mapper.toHourly
-import masha.pogoda.data.mapper.toHourlyToday
 import masha.pogoda.domain.model.WeatherForecast
 
 sealed class WeatherResult {
@@ -33,6 +32,15 @@ class WeatherRepository(
     private val cache: WeatherCacheManager,
     private val yandexKeyProvider: () -> String?
 ) {
+    /**
+     * Кэшированный прогноз для мгновенного показа (cache-first), если он есть.
+     * `stale` отражает, истёк ли TTL — на это завязан баннер «показаны сохранённые данные».
+     */
+    fun cached(now: Long = System.currentTimeMillis()): WeatherResult.Success? {
+        val cached = cache.load() ?: return null
+        return WeatherResult.Success(cached, fromCache = true, stale = cache.isStale(cached, now))
+    }
+
     suspend fun refresh(lat: Double, lon: Double, city: String): WeatherResult {
         val key = yandexKeyProvider()?.takeIf { it.isNotBlank() }
         return if (key == null) {
@@ -52,9 +60,10 @@ class WeatherRepository(
             val forecast = WeatherForecast(
                 city = city,
                 current = openMeteo.toCurrent(),
-                hourly = openMeteo.toHourlyToday(),
+                hourly = openMeteo.toHourly(),
                 daily = openMeteo.toDaily(),
-                cachedAt = System.currentTimeMillis()
+                cachedAt = System.currentTimeMillis(),
+                timezone = openMeteo.timezone
             )
             cache.save(forecast)
             WeatherResult.Success(forecast, fromCache = false, stale = false)
@@ -84,7 +93,8 @@ class WeatherRepository(
                         current = yandex.toCurrent(),
                         hourly = yandex.toHourly(),
                         yandexDays = yandex.toDailyHead(),
-                        openMeteoDays = openMeteo.toDaily()
+                        openMeteoDays = openMeteo.toDaily(),
+                        timezone = openMeteo.timezone
                     )
                     cache.save(forecast)
                     WeatherResult.Success(forecast, fromCache = false, stale = false)
@@ -94,9 +104,10 @@ class WeatherRepository(
                     val forecast = WeatherForecast(
                         city = city,
                         current = openMeteo.toCurrent(),
-                        hourly = openMeteo.toHourlyToday(),
+                        hourly = openMeteo.toHourly(),
                         daily = openMeteo.toDaily(),
-                        cachedAt = System.currentTimeMillis()
+                        cachedAt = System.currentTimeMillis(),
+                        timezone = openMeteo.timezone
                     )
                     cache.save(forecast)
                     WeatherResult.Success(forecast, fromCache = false, stale = false)

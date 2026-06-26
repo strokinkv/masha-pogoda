@@ -32,6 +32,10 @@ class AppPrefs(context: Context) {
             prefs.edit().putString(KEY_YANDEX_KEY, value?.takeIf { it.isNotBlank() }).apply()
         }
 
+    var widgetHourlyForecast: Boolean
+        get() = prefs.getBoolean(KEY_WIDGET_HOURLY_FORECAST, false)
+        set(value) = prefs.edit().putBoolean(KEY_WIDGET_HOURLY_FORECAST, value).apply()
+
     val yandexKey: String?
         get() = userYandexKey ?: if (BuildConfig.DEBUG) {
             BuildConfig.YANDEX_DEV_KEY.takeIf { it.isNotBlank() }
@@ -50,10 +54,10 @@ class AppPrefs(context: Context) {
         const val KEY_CITY = "city"
         const val KEY_LOCATION_MODE = "location_mode"
         const val KEY_YANDEX_KEY = "yandex_key"
+        const val KEY_WIDGET_HOURLY_FORECAST = "widget_hourly_forecast"
 
         const val DEFAULT_LAT = 55.7558
         const val DEFAULT_LON = 37.6176
         const val DEFAULT_CITY = "Москва"
     }
 }
-

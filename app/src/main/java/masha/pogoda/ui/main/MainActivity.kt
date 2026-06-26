@@ -18,24 +18,23 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.location.LocationServices
-import java.io.File
-import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import masha.pogoda.R
-import masha.pogoda.data.cache.WeatherCacheManager
-import masha.pogoda.data.location.LocationProvider
 import masha.pogoda.data.mapper.weatherToAdvice
 import masha.pogoda.data.prefs.AppPrefs
-import masha.pogoda.data.repository.WeatherRepository
 import masha.pogoda.databinding.ActivityMainBinding
 import masha.pogoda.di.ServiceLocator
 import masha.pogoda.domain.model.WeatherForecast
+import masha.pogoda.domain.model.HourlyForecastWindow
 import masha.pogoda.ui.icon.WeatherIconLoader
 import masha.pogoda.ui.settings.SettingsActivity
+import masha.pogoda.widget.WeatherWidget
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -44,6 +43,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dailyAdapter: DailyAdapter
     private lateinit var iconLoader: WeatherIconLoader
     private lateinit var settingsLauncher: ActivityResultLauncher<Intent>
+
+    // cachedAt прогноза, который уже отправлен в виджет — чтобы не перерисовывать
+    // его на каждом возврате в приложение (StateFlow повторно отдаёт текущее значение).
+    private var lastWidgetCachedAt: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +85,12 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_REQUEST_CODE) {
-            viewModel.refresh()
+            val granted = grantResults.any { it == PackageManager.PERMISSION_GRANTED }
+            // Перезапрашиваем только если разрешение выдали и используется GPS:
+            // при отказе или ручном режиме начальный refresh уже показал данные.
+            if (granted && AppPrefs(this).locationMode == AppPrefs.LocationMode.GPS) {
+                viewModel.refresh()
+            }
         }
     }
 
@@ -117,6 +125,18 @@ class MainActivity : AppCompatActivity() {
         }.orEmpty()
         bindForecast(state.forecast)
         animateContent()
+        maybeUpdateWidget(state)
+    }
+
+    private fun maybeUpdateWidget(state: MainUiState.Content) {
+        // Только для свежих сетевых данных и только если это новый прогноз
+        // (а не повторная отдача того же значения StateFlow при возврате/повороте).
+        if (!state.isFresh || state.forecast.cachedAt == lastWidgetCachedAt) return
+        lastWidgetCachedAt = state.forecast.cachedAt
+        // Чтение кэша + рендер SVG в bitmap — вне UI-потока.
+        lifecycleScope.launch(Dispatchers.Default) {
+            WeatherWidget.updateAll(applicationContext)
+        }
     }
 
     private fun bindForecast(forecast: WeatherForecast) {
@@ -133,16 +153,21 @@ class MainActivity : AppCompatActivity() {
             current.windDirection,
             current.pressure
         )
+        val now = HourlyForecastWindow.nowInZone(forecast.timezone)
+        val nearTermPrecip = HourlyForecastWindow.nextHours(forecast.hourly, now, limit = 1)
+            .firstOrNull()?.precipProb
+            ?: forecast.daily.firstOrNull()?.precipProb
+            ?: 0
         binding.adviceText.text = weatherToAdvice(
             tempC = current.temperature,
             code = current.code,
-            precipProb = forecast.daily.firstOrNull()?.precipProb ?: 0,
+            precipProb = nearTermPrecip,
             windMs = current.windSpeed
         )
         binding.currentIcon.contentDescription = current.description
         iconLoader.load(binding.currentIcon, current.iconCode)
         animateCurrentIcon()
-        hourlyAdapter.submitList(forecast.hourly)
+        hourlyAdapter.submitList(HourlyForecastWindow.nextHours(forecast.hourly, now, limit = 24))
         dailyAdapter.submitList(forecast.daily)
     }
 
@@ -157,18 +182,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun viewModelFactory(): ViewModelProvider.Factory {
         val prefs = AppPrefs(this)
-        ServiceLocator.yandexKeyProvider = { prefs.yandexKey }
-        val repository = WeatherRepository(
-            openMeteoApi = ServiceLocator.openMeteoApi,
-            yandexApi = ServiceLocator.yandexApi,
-            cache = WeatherCacheManager(File(filesDir, "weather_cache")),
-            yandexKeyProvider = { prefs.yandexKey }
-        )
-        val locationProvider = LocationProvider(
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this),
-            nominatimApi = ServiceLocator.nominatimApi,
-            prefs = prefs
-        )
+        val repository = ServiceLocator.weatherRepository(this)
+        val locationProvider = ServiceLocator.locationProvider(this)
 
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -201,7 +216,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun Long.formatTime(): String =
-        SimpleDateFormat("HH:mm", Locale("ru")).format(Date(this))
+        TIME_FORMATTER.format(Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()))
 
     private fun applyTimeOfDayBackground() {
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
@@ -239,5 +254,6 @@ class MainActivity : AppCompatActivity() {
 
     private companion object {
         const val LOCATION_REQUEST_CODE = 100
+        private val TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm", Locale("ru"))
     }
 }

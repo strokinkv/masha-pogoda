@@ -38,8 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
+            android:autoLink="web"
+            android:linksClickable="true"
             android:text="@string/yandex_key_hint"
-            android:textColor="#5B6470"
+            android:textColor="#2B2B2B"
             android:textSize="13sp" />
 
         <RadioGroup
@@ -54,6 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="#2B2B2B"
                 android:text="@string/mode_gps" />
 
             <RadioButton
@@ -61,6 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="#2B2B2B"
                 android:text="@string/mode_manual" />
         </RadioGroup>
 
@@ -85,6 +89,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/search_city" />
+
+        <CheckBox
+            android:id="@+id/widgetHourlyForecastCheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/widget_hourly_forecast_label"
+            android:textColor="#2B2B2B"
+            android:textSize="15sp" />
 
         <ProgressBar
             android:id="@+id/progress"

@@ -4,53 +4,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/widgetCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:textColor="#2B2B2B"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/widgetUpdated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="top|end"
+            android:maxLines="1"
+            android:textColor="#5B6470"
+            android:textSize="8sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="2dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/widgetCurrentIcon"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:contentDescription="@string/weather_icon" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/widgetCity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textColor="#2B2B2B"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/widgetDetails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textColor="#5B6470"
-                android:textSize="11sp" />
-        </LinearLayout>
 
         <TextView
             android:id="@+id/widgetTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:textColor="#2B2B2B"
-            android:textSize="32sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/widgetDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:maxLines="2"
+            android:textColor="#5B6470"
+            android:textSize="11sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -73,12 +87,12 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="10sp" />
+                android:textSize="9sp" />
 
             <ImageView
                 android:id="@+id/widgetDay1Icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:contentDescription="@string/weather_icon" />
 
             <TextView
@@ -88,7 +102,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="10sp"
+                android:textSize="9sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -106,12 +120,12 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="10sp" />
+                android:textSize="9sp" />
 
             <ImageView
                 android:id="@+id/widgetDay2Icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:contentDescription="@string/weather_icon" />
 
             <TextView
@@ -121,7 +135,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="10sp"
+                android:textSize="9sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -139,12 +153,12 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="10sp" />
+                android:textSize="9sp" />
 
             <ImageView
                 android:id="@+id/widgetDay3Icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:contentDescription="@string/weather_icon" />
 
             <TextView
@@ -154,17 +168,75 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="#2B2B2B"
-                android:textSize="10sp"
+                android:textSize="9sp"
                 android:textStyle="bold" />
         </LinearLayout>
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/widgetUpdated"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:maxLines="1"
-        android:textColor="#5B6470"
-        android:textSize="10sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widgetDay4Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="#2B2B2B"
+                android:textSize="9sp" />
+
+            <ImageView
+                android:id="@+id/widgetDay4Icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="@string/weather_icon" />
+
+            <TextView
+                android:id="@+id/widgetDay4Temp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="#2B2B2B"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widgetDay5Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="#2B2B2B"
+                android:textSize="9sp" />
+
+            <ImageView
+                android:id="@+id/widgetDay5Icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="@string/weather_icon" />
+
+            <TextView
+                android:id="@+id/widgetDay5Temp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="#2B2B2B"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

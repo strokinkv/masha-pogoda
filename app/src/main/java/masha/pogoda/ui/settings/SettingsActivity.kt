@@ -2,12 +2,8 @@ package masha.pogoda.ui.settings
 
 import android.app.Activity
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.LocationServices
@@ -23,7 +19,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var prefs: AppPrefs
     private lateinit var locationProvider: LocationProvider
-    private var unlocked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +34,12 @@ class SettingsActivity : AppCompatActivity() {
 
         bindInitialValues()
         bindControls()
-        showParentLock()
     }
 
     private fun bindInitialValues() {
         binding.yandexKeyInput.setText(prefs.userYandexKey.orEmpty())
         binding.cityInput.setText(prefs.city)
+        binding.widgetHourlyForecastCheckBox.isChecked = prefs.widgetHourlyForecast
         if (prefs.locationMode == LocationMode.GPS) {
             binding.gpsModeButton.isChecked = true
         } else {
@@ -65,29 +60,6 @@ class SettingsActivity : AppCompatActivity() {
         binding.cancelButton.setOnClickListener { finish() }
     }
 
-    private fun showParentLock() {
-        val answerInput = EditText(this).apply {
-            inputType = InputType.TYPE_CLASS_NUMBER
-            imeOptions = EditorInfo.IME_ACTION_DONE
-        }
-
-        AlertDialog.Builder(this)
-            .setTitle(getString(masha.pogoda.R.string.parent_lock_title))
-            .setMessage(getString(masha.pogoda.R.string.parent_lock_question))
-            .setView(answerInput)
-            .setCancelable(false)
-            .setPositiveButton(masha.pogoda.R.string.parent_lock_ok) { _, _ ->
-                if (answerInput.text.toString().trim() == "12") {
-                    unlocked = true
-                } else {
-                    Toast.makeText(this, masha.pogoda.R.string.parent_lock_wrong, Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-            }
-            .setNegativeButton(android.R.string.cancel) { _, _ -> finish() }
-            .show()
-    }
-
     private fun updateManualControls() {
         val manual = selectedLocationMode() == LocationMode.MANUAL
         binding.cityInput.isEnabled = manual
@@ -99,14 +71,13 @@ class SettingsActivity : AppCompatActivity() {
         if (binding.manualModeButton.isChecked) LocationMode.MANUAL else LocationMode.GPS
 
     private fun saveSettings() {
-        if (!unlocked) return
-
         val current = currentSnapshot()
         val result = SettingsForm.normalize(
             current = current,
             cityInput = binding.cityInput.text?.toString().orEmpty(),
             locationMode = selectedLocationMode(),
-            yandexKeyInput = binding.yandexKeyInput.text?.toString().orEmpty()
+            yandexKeyInput = binding.yandexKeyInput.text?.toString().orEmpty(),
+            widgetHourlyForecast = binding.widgetHourlyForecastCheckBox.isChecked
         )
 
         if (!result.changed) {
@@ -135,6 +106,7 @@ class SettingsActivity : AppCompatActivity() {
             prefs.city = next.city
             prefs.locationMode = next.locationMode
             prefs.userYandexKey = next.userYandexKey
+            prefs.widgetHourlyForecast = next.widgetHourlyForecast
             setResult(Activity.RESULT_OK)
             finish()
         }
@@ -165,6 +137,7 @@ class SettingsActivity : AppCompatActivity() {
         SettingsSnapshot(
             city = prefs.city,
             locationMode = prefs.locationMode,
-            userYandexKey = prefs.userYandexKey
+            userYandexKey = prefs.userYandexKey,
+            widgetHourlyForecast = prefs.widgetHourlyForecast
         )
 }
