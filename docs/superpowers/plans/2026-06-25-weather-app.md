@@ -668,7 +668,7 @@ class OpenMeteoMapperTest {
 - [x] **Step 4:** Run `--tests *OpenMeteoMapperTest` — Expected: FAIL.
 - [x] **Step 5: Реализация** трёх мапперов: `toDaily()` — из параллельных массивов, `code=mapWmoCode(...)`, `windDirection=degreesToRu(...)`, `date=daily.time[i]`, `iconCode=weatherCodeToIcon(code, isDay=true)`; `toCurrent()` — из `current`, `iconCode=weatherCodeToIcon(code, current.is_day==1)`; `toHourlyToday()` — `hourly` по дате `daily.time[0]`, `iconCode=weatherCodeToIcon(code, hour.is_day==1)`.
 - [x] **Step 6:** Run тест — Expected: PASS.
-- [ ] **Step 7: Commit** `git commit -am "feat: open-meteo standalone source (current+hourly+daily, TDD)"`
+- [x] **Step 7: Commit** `git commit -am "feat: open-meteo standalone source (current+hourly+daily, TDD)"`
 
 ---
 
