@@ -13,7 +13,7 @@
     <string name="settings_title">Настройки</string>
     <string name="settings_icon">⚙</string>
     <string name="yandex_key_label">Ключ Яндекс.Погоды</string>
-    <string name="yandex_key_hint">Ключ Яндекс.Погоды необязателен: без него приложение использует Open-Meteo. У тарифа Яндекса есть лимит запросов; приложение обращается к погоде раз в 2 часа. Получить доступ: https://yandex.ru/dev/weather/</string>
+    <string name="yandex_key_hint">Ключ Яндекс.Погоды необязателен: без него приложение использует Open-Meteo. У тарифа Яндекса лимит 30 запросов в сутки; приложение обращается к погоде раз в 2 часа. Получить доступ: https://yandex.ru/dev/weather/</string>
     <string name="mode_gps">GPS</string>
     <string name="mode_manual">Ручной ввод</string>
     <string name="city_label">Город</string>
