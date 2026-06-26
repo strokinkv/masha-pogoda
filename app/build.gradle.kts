@@ -22,7 +22,7 @@ android {
         minSdk = 31
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
@@ -45,6 +45,23 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    val keystorePath = System.getenv("KEYSTORE_FILE")
+        ?: localProperties.getProperty("KEYSTORE_FILE")
+
+    signingConfigs {
+        create("release") {
+            if (keystorePath != null) {
+                storeFile = file(keystorePath)
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                    ?: localProperties.getProperty("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                    ?: localProperties.getProperty("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+                    ?: localProperties.getProperty("KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -52,6 +69,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Подписываем release только если keystore задан (env или local.properties);
+            // иначе собираем неподписанный APK (например, в форках без секретов).
+            signingConfig = if (keystorePath != null) {
+                signingConfigs.getByName("release")
+            } else {
+                null
+            }
         }
     }
 
