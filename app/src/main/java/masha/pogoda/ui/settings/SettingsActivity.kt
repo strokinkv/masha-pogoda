@@ -37,7 +37,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun bindInitialValues() {
-        binding.yandexKeyInput.setText(prefs.userYandexKey.orEmpty())
         binding.cityInput.setText(prefs.city)
         binding.widgetHourlyForecastCheckBox.isChecked = prefs.widgetHourlyForecast
         if (prefs.locationMode == LocationMode.GPS) {
@@ -76,7 +75,6 @@ class SettingsActivity : AppCompatActivity() {
             current = current,
             cityInput = binding.cityInput.text?.toString().orEmpty(),
             locationMode = selectedLocationMode(),
-            yandexKeyInput = binding.yandexKeyInput.text?.toString().orEmpty(),
             widgetHourlyForecast = binding.widgetHourlyForecastCheckBox.isChecked
         )
 
@@ -105,7 +103,6 @@ class SettingsActivity : AppCompatActivity() {
 
             prefs.city = next.city
             prefs.locationMode = next.locationMode
-            prefs.userYandexKey = next.userYandexKey
             prefs.widgetHourlyForecast = next.widgetHourlyForecast
             setResult(Activity.RESULT_OK)
             finish()
@@ -137,7 +134,6 @@ class SettingsActivity : AppCompatActivity() {
         SettingsSnapshot(
             city = prefs.city,
             locationMode = prefs.locationMode,
-            userYandexKey = prefs.userYandexKey,
             widgetHourlyForecast = prefs.widgetHourlyForecast
         )
 }

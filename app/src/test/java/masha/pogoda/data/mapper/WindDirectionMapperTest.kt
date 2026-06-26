@@ -5,12 +5,6 @@ import org.junit.Test
 
 class WindDirectionMapperTest {
     @Test
-    fun yandex() {
-        assertEquals("СЗ", yandexWindToRu("NORTH_WEST"))
-        assertEquals("штиль", yandexWindToRu("CALM"))
-    }
-
-    @Test
     fun degrees() {
         assertEquals("С", degreesToRu(0))
         assertEquals("В", degreesToRu(90))

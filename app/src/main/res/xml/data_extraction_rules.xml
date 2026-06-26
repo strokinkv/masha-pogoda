@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <data-extraction-rules>
-    <!-- Не включаем настройки в облачный бэкап и перенос на другое устройство:
-         в weather_prefs хранится пользовательский ключ Yandex Weather. -->
+    <!-- Не включаем пользовательские настройки (weather_prefs) в облачный бэкап
+         и перенос на другое устройство. -->
     <cloud-backup>
         <exclude domain="sharedpref" path="weather_prefs.xml" />
     </cloud-backup>

@@ -16,14 +16,5 @@ class WeatherCodeMapperTest {
         assertEquals(WeatherCode.SNOW, mapWmoCode(75))
         assertEquals(WeatherCode.THUNDERSTORM, mapWmoCode(95))
     }
-
-    @Test
-    fun yandexCond() {
-        assertEquals(WeatherCode.CLEAR, mapYandexCondition("CLEAR"))
-        assertEquals(WeatherCode.OVERCAST, mapYandexCondition("OVERCAST"))
-        assertEquals(WeatherCode.RAIN, mapYandexCondition("RAIN"))
-        assertEquals(WeatherCode.THUNDERSTORM, mapYandexCondition("THUNDERSTORM"))
-        assertEquals(WeatherCode.RAIN_LIGHT, mapYandexCondition("light_rain"))
-    }
 }
 

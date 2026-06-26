@@ -20,36 +20,6 @@
             android:textSize="26sp"
             android:textStyle="bold" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/yandexKeyHint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:hint="@string/yandex_key_label"
-            android:textColorHint="#4A5560"
-            app:hintTextColor="#2B2B2B"
-            app:boxStrokeColor="#4A5560">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/yandexKeyInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textVisiblePassword"
-                android:singleLine="true"
-                android:textColor="#2B2B2B" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:autoLink="web"
-            android:linksClickable="true"
-            android:text="@string/yandex_key_hint"
-            android:textColor="#2B2B2B"
-            android:textColorLink="#1565A8"
-            android:textSize="13sp" />
-
         <RadioGroup
             android:id="@+id/modeGroup"
             android:layout_width="match_parent"

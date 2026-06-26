@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <full-backup-content>
-    <!-- Исключаем настройки из бэкапа (Android < 12): в weather_prefs хранится
-         пользовательский ключ Yandex Weather. -->
+    <!-- Исключаем пользовательские настройки (weather_prefs) из бэкапа (Android < 12). -->
     <exclude domain="sharedpref" path="weather_prefs.xml" />
 </full-backup-content>

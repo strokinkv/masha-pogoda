@@ -16,21 +16,6 @@ fun mapWmoCode(code: Int): WeatherCode = when (code) {
     else -> WeatherCode.CLOUDY
 }
 
-fun mapYandexCondition(c: String): WeatherCode = when (c.uppercase()) {
-    "CLEAR" -> WeatherCode.CLEAR
-    "PARTLY_CLOUDY" -> WeatherCode.PARTLY_CLOUDY
-    "CLOUDY" -> WeatherCode.CLOUDY
-    "OVERCAST" -> WeatherCode.OVERCAST
-    "DRIZZLE", "LIGHT_RAIN" -> WeatherCode.RAIN_LIGHT
-    "RAIN", "MODERATE_RAIN", "SHOWERS" -> WeatherCode.RAIN
-    "HEAVY_RAIN" -> WeatherCode.RAIN_HEAVY
-    "LIGHT_SNOW" -> WeatherCode.SNOW_LIGHT
-    "SNOW", "SNOWFALL", "SNOW_SHOWERS" -> WeatherCode.SNOW
-    "HAIL", "THUNDERSTORM" -> WeatherCode.THUNDERSTORM
-    "FOG" -> WeatherCode.FOG
-    else -> WeatherCode.CLOUDY
-}
-
 fun weatherCodeToIcon(code: WeatherCode, isDay: Boolean): String {
     val suffix = if (isDay) "day" else "night"
     return when (code) {

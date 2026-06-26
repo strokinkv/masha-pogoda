@@ -12,8 +12,6 @@
     <string name="error_weather_unavailable">Ой! Не получилось узнать погоду 🌧 Попробуем ещё разок</string>
     <string name="settings_title">Настройки</string>
     <string name="settings_icon">⚙</string>
-    <string name="yandex_key_label">Ключ Яндекс.Погоды</string>
-    <string name="yandex_key_hint">Ключ Яндекс.Погоды необязателен: без него приложение использует Open-Meteo. У тарифа Яндекса лимит 30 запросов в сутки; приложение обращается к погоде раз в 2 часа. Получить доступ: https://yandex.ru/dev/weather/</string>
     <string name="mode_gps">GPS</string>
     <string name="mode_manual">Ручной ввод</string>
     <string name="city_label">Город</string>
@@ -23,7 +21,7 @@
     <string name="cancel">Отмена</string>
     <string name="city_not_found">Не получилось найти город</string>
     <string name="city_found">Город найден</string>
-    <string name="settings_about">Версия %1$s. Источники: Open-Meteo CC BY 4.0; Яндекс.Погода используется только если задан ключ; Nominatim для поиска города.</string>
+    <string name="settings_about">Версия %1$s. Источники: Open-Meteo CC BY 4.0; Nominatim для поиска города.</string>
     <string name="widget_description">Погода на 5 дней или ближайшие часы</string>
     <string name="widget_empty_title">Погода ждёт</string>
     <string name="widget_empty_details">Откройте приложение, чтобы загрузить прогноз.</string>
