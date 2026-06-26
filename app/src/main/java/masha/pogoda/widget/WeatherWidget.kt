@@ -57,7 +57,10 @@ class WeatherWidget : AppWidgetProvider() {
             val model = WeatherWidgetModel.from(forecast)
             views.setTextViewText(R.id.widgetCity, model.city)
             views.setTextViewText(R.id.widgetTemp, model.temperature)
-            views.setTextViewText(R.id.widgetDetails, model.details)
+            views.setTextViewText(
+                R.id.widgetDetails,
+                context.getString(R.string.widget_details, model.feelsLike, model.humidity, model.windSpeed)
+            )
             views.setTextViewText(R.id.widgetUpdated, context.getString(R.string.widget_updated, model.updatedAt))
             views.setImageViewBitmap(R.id.widgetCurrentIcon, iconLoader.renderBitmap(model.iconCode, 112))
 

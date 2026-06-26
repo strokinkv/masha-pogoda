@@ -2,9 +2,6 @@ package masha.pogoda.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -52,29 +49,23 @@ class MainViewModel(
     private fun WeatherResult.toUiState(): MainUiState = when (this) {
         is WeatherResult.Success -> MainUiState.Content(
             forecast = forecast,
-            banner = cacheBanner(forecast, fromCache, stale)
+            cacheBannerTimeMillis = cacheBannerTime(forecast, fromCache, stale)
         )
 
         is WeatherResult.Error -> cached?.let { forecast ->
             MainUiState.Content(
                 forecast = forecast,
-                banner = cacheBanner(forecast, fromCache = true, stale = true)
+                cacheBannerTimeMillis = cacheBannerTime(forecast, fromCache = true, stale = true)
             )
-        } ?: MainUiState.Empty(
-            message = "Ой! Не получилось узнать погоду. Попробуем ещё разок"
-        )
+        } ?: MainUiState.Empty()
     }
 
-    private fun cacheBanner(
+    private fun cacheBannerTime(
         forecast: WeatherForecast,
         fromCache: Boolean,
         stale: Boolean
-    ): String? {
+    ): Long? {
         if (!fromCache && !stale) return null
-        return "Показываю погоду с ${forecast.cachedAt.formatTime()}"
+        return forecast.cachedAt
     }
-
-    private fun Long.formatTime(): String =
-        SimpleDateFormat("HH:mm", Locale("ru")).format(Date(this))
 }
-

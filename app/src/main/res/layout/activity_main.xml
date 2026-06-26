@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="22dp"
-                    android:text="Сегодня по часам"
+                    android:text="@string/hourly_section_title"
                     android:textColor="#2B2B2B"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -144,7 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="22dp"
-                    android:text="7 дней"
+                    android:text="@string/daily_section_title"
                     android:textColor="#2B2B2B"
                     android:textSize="18sp"
                     android:textStyle="bold" />

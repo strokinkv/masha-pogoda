@@ -111,8 +111,10 @@ class MainActivity : AppCompatActivity() {
     private fun showContent(state: MainUiState.Content) {
         binding.mainContent.visibility = View.VISIBLE
         binding.emptyState.visibility = View.GONE
-        binding.bannerText.visibility = if (state.banner == null) View.GONE else View.VISIBLE
-        binding.bannerText.text = state.banner.orEmpty()
+        binding.bannerText.visibility = if (state.cacheBannerTimeMillis == null) View.GONE else View.VISIBLE
+        binding.bannerText.text = state.cacheBannerTimeMillis?.let {
+            getString(R.string.cache_banner, it.formatTime())
+        }.orEmpty()
         bindForecast(state.forecast)
         animateContent()
     }
@@ -120,12 +122,17 @@ class MainActivity : AppCompatActivity() {
     private fun bindForecast(forecast: WeatherForecast) {
         val current = forecast.current
         binding.cityText.text = forecast.city
-        binding.updatedText.text = "Обновлено ${forecast.cachedAt.formatTime()}"
+        binding.updatedText.text = getString(R.string.updated_at, forecast.cachedAt.formatTime())
         binding.currentTempText.text = "${current.temperature}°"
-        binding.feelsLikeText.text = "Ощущается как ${current.feelsLike}°"
+        binding.feelsLikeText.text = getString(R.string.feels_like, current.feelsLike)
         binding.descriptionText.text = current.description
-        binding.detailsText.text =
-            "Влажность ${current.humidity}%   Ветер ${current.windSpeed} м/с ${current.windDirection}   Давление ${current.pressure}"
+        binding.detailsText.text = getString(
+            R.string.current_details,
+            current.humidity,
+            current.windSpeed,
+            current.windDirection,
+            current.pressure
+        )
         binding.adviceText.text = weatherToAdvice(
             tempC = current.temperature,
             code = current.code,
@@ -142,9 +149,10 @@ class MainActivity : AppCompatActivity() {
     private fun showEmpty(state: MainUiState.Empty) {
         binding.mainContent.visibility = View.GONE
         binding.emptyState.visibility = View.VISIBLE
-        binding.emptyText.text = state.message
+        val message = getString(R.string.error_weather_unavailable)
+        binding.emptyText.text = message
         binding.retryButton.visibility = if (state.canRetry) View.VISIBLE else View.GONE
-        Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun viewModelFactory(): ViewModelProvider.Factory {

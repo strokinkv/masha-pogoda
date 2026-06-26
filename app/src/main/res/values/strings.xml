@@ -3,6 +3,13 @@
     <string name="app_name">Погода</string>
     <string name="weather_icon">Иконка погоды</string>
     <string name="retry">Повторить</string>
+    <string name="hourly_section_title">Сегодня по часам</string>
+    <string name="daily_section_title">7 дней</string>
+    <string name="updated_at">Обновлено %1$s</string>
+    <string name="feels_like">Ощущается как %1$d°</string>
+    <string name="current_details">Влажность %1$d%%   Ветер %2$.1f м/с %3$s   Давление %4$d</string>
+    <string name="cache_banner">Показываю погоду с %1$s 🕒</string>
+    <string name="error_weather_unavailable">Ой! Не получилось узнать погоду 🌧 Попробуем ещё разок</string>
     <string name="settings_title">Настройки</string>
     <string name="settings_icon">⚙</string>
     <string name="parent_lock_title">Проверка для взрослого</string>
@@ -23,5 +30,6 @@
     <string name="widget_description">Погода на 3 дня</string>
     <string name="widget_empty_title">Погода ждёт</string>
     <string name="widget_empty_details">Откройте приложение, чтобы загрузить прогноз.</string>
+    <string name="widget_details">Ощущ. %1$d°  Вл. %2$d%%  Ветер %3$.1f м/с</string>
     <string name="widget_updated">Обновлено %1$s</string>
 </resources>

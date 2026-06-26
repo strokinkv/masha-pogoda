@@ -7,12 +7,10 @@ sealed class MainUiState {
 
     data class Content(
         val forecast: WeatherForecast,
-        val banner: String?
+        val cacheBannerTimeMillis: Long?
     ) : MainUiState()
 
     data class Empty(
-        val message: String,
         val canRetry: Boolean = true
     ) : MainUiState()
 }
-

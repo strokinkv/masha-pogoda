@@ -16,7 +16,9 @@ data class WeatherWidgetModel(
     val city: String,
     val iconCode: String,
     val temperature: String,
-    val details: String,
+    val feelsLike: Int,
+    val humidity: Int,
+    val windSpeed: Double,
     val updatedAt: String,
     val days: List<WeatherWidgetDay>
 ) {
@@ -27,7 +29,9 @@ data class WeatherWidgetModel(
                 city = forecast.city,
                 iconCode = current.iconCode,
                 temperature = "${current.temperature}°",
-                details = "Ощущ. ${current.feelsLike}°  Вл. ${current.humidity}%  Ветер ${current.windSpeed} м/с",
+                feelsLike = current.feelsLike,
+                humidity = current.humidity,
+                windSpeed = current.windSpeed,
                 updatedAt = forecast.cachedAt.formatTime(),
                 days = forecast.daily.take(3).map { day ->
                     WeatherWidgetDay(
