@@ -19,16 +19,16 @@ class WeatherRepositoryTest {
 
     @Test
     fun refresh_usesMetNo() = runBlocking {
-        val metNo = FakeMetNoApi(metNoFixture())
+        val api = FakeMetNoApi(metNoFixture())
         val repository = WeatherRepository(
-            metNoApi = metNo,
+            metNoApi = api,
             cache = WeatherCacheManager(tempDir())
         )
 
         val result = repository.refresh(55.7558, 37.6176, "Москва")
 
         assertTrue(result is WeatherResult.Success)
-        assertEquals(1, metNo.calls)
+        assertEquals(1, api.calls)
         assertEquals(7, (result as WeatherResult.Success).forecast.daily.size)
     }
 
@@ -109,7 +109,10 @@ class WeatherRepositoryTest {
     }
 
     private fun repositoryWith(cache: WeatherCacheManager): WeatherRepository =
-        WeatherRepository(metNoApi = FakeMetNoApi(metNoFixture()), cache = cache)
+        WeatherRepository(
+            metNoApi = FakeMetNoApi(metNoFixture()),
+            cache = cache
+        )
 
     private fun sampleForecast(cachedAt: Long): WeatherForecast =
         WeatherForecast(
