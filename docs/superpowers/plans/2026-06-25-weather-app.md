@@ -867,12 +867,12 @@ class WeatherCacheManagerTest {
 - Create: `ui/icon/WeatherIconLoader.kt` (рендер SVG-иконок из бандла Task 1B)
 
 **Verification (ручная):**
-- [ ] **Step 1: `WeatherIconLoader`** — грузит `assets/weather/<iconCode>.svg` через androidsvg в `ImageView`. День/ночь уже зашиты в имя ассета (`*_day`/`*_night`), отдельных theme-папок нет. LRU-кэш `Map<String, SVG>` по `iconCode`. Если файла нет — фолбэк `weatherCodeToIcon(code, isDay=true)`. Методы: `fun load(iv: ImageView, iconCode: String)` и (для виджета) `fun renderBitmap(iconCode: String, sizePx: Int): Bitmap`.
-- [ ] **Step 2:** Разметка: `SwipeRefreshLayout` → `NestedScrollView` с блоками «Сейчас» (темп крупно, «ощущается как», строка влажность/ветер/осадки), **карточка-совет** (текст из `weatherToAdvice(...)`, крупно, с эмодзи — главный «детский» элемент), горизонтальный `RecyclerView` почасового, вертикальный список 7 дней. Каждой иконке — `contentDescription` (описание состояния словами, не только цвет/картинка).
-- [ ] **Step 3:** Адаптеры `HourlyAdapter`/`DailyAdapter` (ListAdapter+DiffUtil); строка дня = день недели+дата, иконка (через `WeatherIconLoader.load(iv, item.iconCode)`), мин/макс, осадки.
-- [ ] **Step 4:** `MainActivity` — ViewBinding, подписка на `uiState`, `requestPermissions(ACCESS_FINE/COARSE_LOCATION)` при старте, pull-to-refresh → `vm.refresh()`. Большая иконка «Сейчас» = `WeatherIconLoader.load(iv, current.iconCode)`.
+- [x] **Step 1: `WeatherIconLoader`** — грузит `assets/weather/<iconCode>.svg` через androidsvg в `ImageView`. День/ночь уже зашиты в имя ассета (`*_day`/`*_night`), отдельных theme-папок нет. LRU-кэш `Map<String, SVG>` по `iconCode`. Если файла нет — фолбэк `weatherCodeToIcon(code, isDay=true)`. Методы: `fun load(iv: ImageView, iconCode: String)` и (для виджета) `fun renderBitmap(iconCode: String, sizePx: Int): Bitmap`.
+- [x] **Step 2:** Разметка: `SwipeRefreshLayout` → `NestedScrollView` с блоками «Сейчас» (темп крупно, «ощущается как», строка влажность/ветер/осадки), **карточка-совет** (текст из `weatherToAdvice(...)`, крупно, с эмодзи — главный «детский» элемент), горизонтальный `RecyclerView` почасового, вертикальный список 7 дней. Каждой иконке — `contentDescription` (описание состояния словами, не только цвет/картинка).
+- [x] **Step 3:** Адаптеры `HourlyAdapter`/`DailyAdapter` (ListAdapter+DiffUtil); строка дня = день недели+дата, иконка (через `WeatherIconLoader.load(iv, item.iconCode)`), мин/макс, осадки.
+- [x] **Step 4:** `MainActivity` — ViewBinding, подписка на `uiState`, `requestPermissions(ACCESS_FINE/COARSE_LOCATION)` при старте, pull-to-refresh → `vm.refresh()`. Большая иконка «Сейчас» = `WeatherIconLoader.load(iv, current.iconCode)`.
 - [ ] **Step 5: Manual verify:** запустить **без ключа Яндекса** — мультяшные иконки (солнце/туча/дождь) показываются для всех источников и **офлайн** (airplane mode); pull-to-refresh обновляет; toast при ошибке. Проверить, что ночные состояния показывают `*_night`-вариант.
-- [ ] **Step 6: Commit** `git commit -am "feat: main screen ui + adapters + svg weather icons"`
+- [x] **Step 6: Commit** `git commit -am "feat: main screen ui + adapters + svg weather icons"`
 
 ---
 
