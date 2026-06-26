@@ -915,7 +915,7 @@ class WeatherCacheManagerTest {
 - Create: `work/WeatherSyncWorker.kt`; Modify: `MainActivity`/`Application` (планирование)
 
 **Verification (ручная):**
-- [ ] **Step 1:** `WeatherSyncWorker(CoroutineWorker)` → `repository.refresh(prefs)`; при успехе обновить виджет; `Result.retry()` при ошибке.
+- [x] **Step 1:** `WeatherSyncWorker(CoroutineWorker)` → `repository.refresh(prefs)`; при успехе обновить виджет; `Result.retry()` при ошибке.
 - [x] **Step 2:** `PeriodicWorkRequest` 60 мин, `Constraints` (NetworkType.CONNECTED), `BackoffPolicy.EXPONENTIAL`, `ExistingPeriodicWorkPolicy.KEEP`. Планировать при старте приложения.
 - [ ] **Step 3: Manual verify:** `adb shell cmd jobscheduler run -f <pkg> <id>` или WorkManager-инспектор — кэш обновляется.
 - [x] **Step 4: Commit** `git commit -am "feat: hourly background sync worker"`
@@ -929,11 +929,11 @@ class WeatherCacheManagerTest {
 - Modify: `AndroidManifest.xml` (receiver + meta-data)
 
 **Verification (ручная):**
-- [ ] **Step 1:** `appwidget-provider`: minWidth ≈250dp, minHeight ≈110dp (4×2), `resizeMode="none"`, updatePeriod 0 (обновляем из Worker).
-- [ ] **Step 2:** RemoteViews: верх — город, иконка+темп, «ощущается/влажность/ветер»; низ — 3 колонки (сегодня/завтра/послезавтра: день, иконка, мин–макс); footer — время обновления. Тап → `PendingIntent` на `MainActivity`. **Иконки:** RemoteViews не умеет SVG/ImageView — в `WeatherIconLoader` добавить `fun renderBitmap(iconCode: String, sizePx: Int): Bitmap` (androidsvg → Canvas → Bitmap) и ставить через `RemoteViews.setImageViewBitmap`. Тему виджета определять по `Configuration.uiMode`.
-- [ ] **Step 3:** `WeatherWidget(AppWidgetProvider).onUpdate` читает кэш и рендерит; статический метод `updateAll(context)` зовётся из Worker.
+- [x] **Step 1:** `appwidget-provider`: minWidth ≈250dp, minHeight ≈110dp (4×2), `resizeMode="none"`, updatePeriod 0 (обновляем из Worker).
+- [x] **Step 2:** RemoteViews: верх — город, иконка+темп, «ощущается/влажность/ветер»; низ — 3 колонки (сегодня/завтра/послезавтра: день, иконка, мин–макс); footer — время обновления. Тап → `PendingIntent` на `MainActivity`. **Иконки:** RemoteViews не умеет SVG/ImageView — в `WeatherIconLoader` добавить `fun renderBitmap(iconCode: String, sizePx: Int): Bitmap` (androidsvg → Canvas → Bitmap) и ставить через `RemoteViews.setImageViewBitmap`. Тему виджета определять по `Configuration.uiMode`.
+- [x] **Step 3:** `WeatherWidget(AppWidgetProvider).onUpdate` читает кэш и рендерит; статический метод `updateAll(context)` зовётся из Worker.
 - [ ] **Step 4: Manual verify:** добавить виджет на рабочий стол, данные видны, тап открывает приложение, тёмная тема корректна.
-- [ ] **Step 5: Commit** `git commit -am "feat: 4x2 home screen widget"`
+- [x] **Step 5: Commit** `git commit -am "feat: 4x2 home screen widget"`
 
 ---
 

@@ -9,6 +9,7 @@ import masha.pogoda.data.prefs.AppPrefs
 import masha.pogoda.data.repository.WeatherRepository
 import masha.pogoda.data.repository.WeatherResult
 import masha.pogoda.di.ServiceLocator
+import masha.pogoda.widget.WeatherWidget
 
 class WeatherSyncWorker(
     appContext: Context,
@@ -26,7 +27,10 @@ class WeatherSyncWorker(
         )
 
         return when (repository.refresh(prefs.lat, prefs.lon, prefs.city)) {
-            is WeatherResult.Success -> Result.success()
+            is WeatherResult.Success -> {
+                WeatherWidget.updateAll(applicationContext)
+                Result.success()
+            }
             is WeatherResult.Error -> Result.retry()
         }
     }
