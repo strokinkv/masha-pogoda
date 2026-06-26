@@ -52,9 +52,28 @@ jobs:
           apk=$(ls app/build/outputs/apk/release/*.apk | head -n1)
           cp "$apk" "${{ runner.temp }}/masha-pogoda.apk"
 
+      # Берём раздел нужной версии из CHANGELOG.md (заголовок вида "## [1.0.3]").
+      - name: Extract release notes from CHANGELOG
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          notes="$RUNNER_TEMP/release-notes.md"
+          awk -v hdr="## [$version]" '
+            index($0, hdr)==1 { capture=1; next }
+            capture && index($0, "## [")==1 { exit }
+            capture { print }
+          ' CHANGELOG.md > "$notes"
+          # Если раздел не найден/пуст — оставляем файл пустым и включаем автогенерацию.
+          if [ -s "$notes" ]; then
+            echo "NOTES_FOUND=true" >> "$GITHUB_ENV"
+          else
+            echo "NOTES_FOUND=false" >> "$GITHUB_ENV"
+          fi
+          echo "NOTES_PATH=$notes" >> "$GITHUB_ENV"
+
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ runner.temp }}/masha-pogoda.apk
-          generate_release_notes: true
+          body_path: ${{ env.NOTES_FOUND == 'true' && env.NOTES_PATH || '' }}
+          generate_release_notes: ${{ env.NOTES_FOUND != 'true' }}
           fail_on_unmatched_files: true
