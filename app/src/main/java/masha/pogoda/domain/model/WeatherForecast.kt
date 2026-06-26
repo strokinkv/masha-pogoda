@@ -9,7 +9,7 @@ data class WeatherForecast(
     val hourly: List<HourlyWeather>,
     val daily: List<DailyWeather>,
     val cachedAt: Long,
-    // IANA-зона локации (из Open-Meteo, timezone=auto). null → используем зону устройства.
+    // IANA-зона локации. null → используем зону устройства.
     val timezone: String? = null
 )
 

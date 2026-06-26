@@ -21,7 +21,7 @@
     <string name="cancel">Отмена</string>
     <string name="city_not_found">Не получилось найти город</string>
     <string name="city_found">Город найден</string>
-    <string name="settings_about">Версия %1$s. Источники: Open-Meteo CC BY 4.0; Nominatim для поиска города.</string>
+    <string name="settings_about">Версия %1$s. Источники: Yr/met.no CC BY 4.0; Nominatim для поиска города.</string>
     <string name="widget_description">Погода на 5 дней или ближайшие часы</string>
     <string name="widget_empty_title">Погода ждёт</string>
     <string name="widget_empty_details">Откройте приложение, чтобы загрузить прогноз.</string>

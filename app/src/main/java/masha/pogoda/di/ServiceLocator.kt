@@ -6,8 +6,8 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlinx.serialization.json.Json
+import masha.pogoda.data.api.MetNoApi
 import masha.pogoda.data.api.NominatimApi
-import masha.pogoda.data.api.OpenMeteoApi
 import masha.pogoda.data.cache.WeatherCacheManager
 import masha.pogoda.data.location.LocationProvider
 import masha.pogoda.data.prefs.AppPrefs
@@ -40,18 +40,17 @@ object ServiceLocator {
             .addInterceptor { chain ->
                 val original = chain.request()
                 val builder = original.newBuilder()
-
-                if (original.url.host == "nominatim.openstreetmap.org") {
-                    builder.header("User-Agent", "WeatherApp/1.0")
+                val host = original.url.host
+                if (host == "nominatim.openstreetmap.org" || host == "api.met.no") {
+                    builder.header("User-Agent", "PogodaApp/1.0 strokinkv@gmail.com")
                 }
-
                 chain.proceed(builder.build())
             }
             .build()
     }
 
-    val openMeteoApi: OpenMeteoApi by lazy {
-        retrofit("https://api.open-meteo.com/").create(OpenMeteoApi::class.java)
+    val metNoApi: MetNoApi by lazy {
+        retrofit("https://api.met.no/").create(MetNoApi::class.java)
     }
 
     val nominatimApi: NominatimApi by lazy {
@@ -60,7 +59,7 @@ object ServiceLocator {
 
     fun weatherRepository(context: Context): WeatherRepository =
         WeatherRepository(
-            openMeteoApi = openMeteoApi,
+            metNoApi = metNoApi,
             cache = WeatherCacheManager(File(context.applicationContext.filesDir, "weather_cache"))
         )
 

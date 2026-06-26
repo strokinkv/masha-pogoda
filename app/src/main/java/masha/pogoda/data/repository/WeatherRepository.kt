@@ -1,6 +1,6 @@
 package masha.pogoda.data.repository
 
-import masha.pogoda.data.api.OpenMeteoApi
+import masha.pogoda.data.api.MetNoApi
 import masha.pogoda.data.cache.WeatherCacheManager
 import masha.pogoda.data.mapper.toCurrent
 import masha.pogoda.data.mapper.toDaily
@@ -21,13 +21,9 @@ sealed class WeatherResult {
 }
 
 class WeatherRepository(
-    private val openMeteoApi: OpenMeteoApi,
+    private val metNoApi: MetNoApi,
     private val cache: WeatherCacheManager
 ) {
-    /**
-     * Кэшированный прогноз для мгновенного показа (cache-first), если он есть.
-     * `stale` отражает, истёк ли TTL — на это завязан баннер «показаны сохранённые данные».
-     */
     fun cached(now: Long = System.currentTimeMillis()): WeatherResult.Success? {
         val cached = cache.load() ?: return null
         return WeatherResult.Success(cached, fromCache = true, stale = cache.isStale(cached, now))
@@ -35,14 +31,14 @@ class WeatherRepository(
 
     suspend fun refresh(lat: Double, lon: Double, city: String): WeatherResult =
         runCatching {
-            val openMeteo = openMeteoApi.getForecast(lat, lon)
+            val response = metNoApi.getForecast(lat, lon)
             val forecast = WeatherForecast(
                 city = city,
-                current = openMeteo.toCurrent(),
-                hourly = openMeteo.toHourly(),
-                daily = openMeteo.toDaily(),
+                current = response.toCurrent(),
+                hourly = response.toHourly(),
+                daily = response.toDaily(),
                 cachedAt = System.currentTimeMillis(),
-                timezone = openMeteo.timezone
+                timezone = null
             )
             cache.save(forecast)
             WeatherResult.Success(forecast, fromCache = false, stale = false)

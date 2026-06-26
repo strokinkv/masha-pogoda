@@ -3,8 +3,8 @@ package masha.pogoda.data.repository
 import java.io.File
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
-import masha.pogoda.data.api.OpenMeteoApi
-import masha.pogoda.data.api.OpenMeteoResponse
+import masha.pogoda.data.api.MetNoApi
+import masha.pogoda.data.api.MetNoResponse
 import masha.pogoda.data.cache.WeatherCacheManager
 import masha.pogoda.domain.model.CurrentWeather
 import masha.pogoda.domain.model.WeatherCode
@@ -18,17 +18,17 @@ class WeatherRepositoryTest {
     private val json = Json { ignoreUnknownKeys = true }
 
     @Test
-    fun refresh_usesOpenMeteo() = runBlocking {
-        val openMeteo = FakeOpenMeteoApi(openMeteoFixture())
+    fun refresh_usesMetNo() = runBlocking {
+        val metNo = FakeMetNoApi(metNoFixture())
         val repository = WeatherRepository(
-            openMeteoApi = openMeteo,
+            metNoApi = metNo,
             cache = WeatherCacheManager(tempDir())
         )
 
         val result = repository.refresh(55.7558, 37.6176, "Москва")
 
         assertTrue(result is WeatherResult.Success)
-        assertEquals(1, openMeteo.calls)
+        assertEquals(1, metNo.calls)
         assertEquals(7, (result as WeatherResult.Success).forecast.daily.size)
     }
 
@@ -70,7 +70,7 @@ class WeatherRepositoryTest {
         val cache = WeatherCacheManager(tempDir())
         cache.save(sampleForecast(cachedAt = System.currentTimeMillis()))
         val repository = WeatherRepository(
-            openMeteoApi = FakeOpenMeteoApi(openMeteoFixture(), fail = true),
+            metNoApi = FakeMetNoApi(metNoFixture(), fail = true),
             cache = cache
         )
 
@@ -85,7 +85,7 @@ class WeatherRepositoryTest {
         val cache = WeatherCacheManager(tempDir())
         cache.save(sampleForecast(cachedAt = System.currentTimeMillis() - 25L * 60 * 60 * 1000))
         val repository = WeatherRepository(
-            openMeteoApi = FakeOpenMeteoApi(openMeteoFixture(), fail = true),
+            metNoApi = FakeMetNoApi(metNoFixture(), fail = true),
             cache = cache
         )
 
@@ -98,7 +98,7 @@ class WeatherRepositoryTest {
     @Test
     fun networkFailureWithoutCacheReturnsError() = runBlocking {
         val repository = WeatherRepository(
-            openMeteoApi = FakeOpenMeteoApi(openMeteoFixture(), fail = true),
+            metNoApi = FakeMetNoApi(metNoFixture(), fail = true),
             cache = WeatherCacheManager(tempDir())
         )
 
@@ -109,10 +109,7 @@ class WeatherRepositoryTest {
     }
 
     private fun repositoryWith(cache: WeatherCacheManager): WeatherRepository =
-        WeatherRepository(
-            openMeteoApi = FakeOpenMeteoApi(openMeteoFixture()),
-            cache = cache
-        )
+        WeatherRepository(metNoApi = FakeMetNoApi(metNoFixture()), cache = cache)
 
     private fun sampleForecast(cachedAt: Long): WeatherForecast =
         WeatherForecast(
@@ -134,32 +131,23 @@ class WeatherRepositoryTest {
             cachedAt = cachedAt
         )
 
-    private fun openMeteoFixture(): OpenMeteoResponse =
+    private fun metNoFixture(): MetNoResponse =
         json.decodeFromString(
-            javaClass.getResource("/fixtures/open_meteo.json")!!.readText()
+            javaClass.getResource("/fixtures/met_no.json")!!.readText()
         )
 
     private fun tempDir(): File =
         kotlin.io.path.createTempDirectory("weather-repository-test").toFile()
 
-    private class FakeOpenMeteoApi(
-        private val response: OpenMeteoResponse,
+    private class FakeMetNoApi(
+        private val response: MetNoResponse,
         private val fail: Boolean = false
-    ) : OpenMeteoApi {
+    ) : MetNoApi {
         var calls = 0
 
-        override suspend fun getForecast(
-            latitude: Double,
-            longitude: Double,
-            current: String,
-            hourly: String,
-            daily: String,
-            windSpeedUnit: String,
-            timezone: String,
-            forecastDays: Int
-        ): OpenMeteoResponse {
+        override suspend fun getForecast(lat: Double, lon: Double): MetNoResponse {
             calls++
-            if (fail) error("Open-Meteo failed")
+            if (fail) error("met.no failed")
             return response
         }
     }
